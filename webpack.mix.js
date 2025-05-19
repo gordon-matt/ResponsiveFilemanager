@@ -17,8 +17,6 @@ mix.less(
 
 mix.styles(
     [
-        'node_modules/bootstrap/docs/assets/css/bootstrap.css',
-        'node_modules/bootstrap/docs/assets/css/bootstrap-responsive.css',
         'node_modules/bootstrap-modal/css/bootstrap-modal.css',
         'node_modules/featherlight/src/featherlight.css',
         'node_modules/jquery-contextmenu/dist/jquery.contextMenu.css',
@@ -39,19 +37,6 @@ mix.styles(
 
 mix.scripts(
     [
-        'node_modules/bootstrap/js/bootstrap-transition.js',
-        'node_modules/bootstrap/js/bootstrap-affix.js',
-        'node_modules/bootstrap/js/bootstrap-dropdown.js',
-        'node_modules/bootstrap/js/bootstrap-alert.js',
-        'node_modules/bootstrap/js/bootstrap-button.js',
-        'node_modules/bootstrap/js/bootstrap-collapse.js',
-        'node_modules/bootstrap/js/bootstrap-dropdown.js',
-        'node_modules/bootstrap/js/bootstrap-modal.js',
-        'node_modules/bootstrap/js/bootstrap-tooltip.js',
-        'node_modules/bootstrap/js/bootstrap-popover.js',
-        'node_modules/bootstrap/js/bootstrap-scrollspy.js',
-        'node_modules/bootstrap/js/bootstrap-tab.js',
-        'node_modules/bootstrap/js/bootstrap-typeahead.js',
         'node_modules/bootstrap-lightbox/js/bootstrap-lightbox.js',
         'node_modules/jquery-contextmenu/dist/jquery.contextMenu.js',
         'node_modules/vanilla-lazyload/dist/lazyload.js',
@@ -77,8 +62,17 @@ mix.scripts(
     'filemanager/js/tui-image-editor.js',
 );
 
-mix.copy('node_modules/blueimp-file-upload/js', 'filemanager/js/');
-mix.copy('node_modules/blueimp-file-upload/css', 'filemanager/css/');
+// Copy blueimp files to js/css subfolders
+mix.copy('node_modules/blueimp-file-upload/js', 'filemanager/js/blueimp/');
+mix.copy('node_modules/blueimp-file-upload/css', 'filemanager/css/blueimp/');
+mix.copy('node_modules/blueimp-tmpl/js/tmpl.min.js', 'filemanager/js/blueimp/');
+mix.copy('node_modules/blueimp-load-image/js/load-image.all.min.js', 'filemanager/js/blueimp/');
+mix.copy('node_modules/blueimp-canvas-to-blob/js/canvas-to-blob.min.js', 'filemanager/js/blueimp/');
+
+// Copy Bootstrap files to js/css/img subfolders
+mix.copy('node_modules/bootstrap/docs/assets/css', 'filemanager/css/bootstrap/');
+mix.copy('node_modules/bootstrap/js', 'filemanager/js/bootstrap/');
+mix.copy('node_modules/bootstrap/img', 'filemanager/css/img/');
 
 mix.scripts(
     [

@@ -108,17 +108,29 @@ var encodeURL,show_animation,hide_animation,apply,apply_none,apply_img,apply_any
 			{
 				var old_name = $trigger.find('h4').text().trim();
 
-				bootbox.prompt(jQuery('#lang_duplicate').val(), jQuery('#cancel').val(), jQuery('#ok').val(), function (name)
-				{
-					if (name !== null)
+				bootbox.prompt({
+					title: jQuery('#lang_duplicate').val(),
+					value: old_name+" - copy",
+					buttons: {
+						confirm: {
+							label: jQuery('#ok').val()
+						},
+						cancel: {
+							label: jQuery('#cancel').val()
+						}
+					},
+					callback: function (name)
 					{
-						name = fix_filename(name);
-						if (name != old_name)
+						if (name !== null)
 						{
-							execute_action('duplicate_file', $trigger.attr('data-path'), name, $trigger, 'apply_file_duplicate');
+							name = fix_filename(name);
+							if (name != old_name)
+							{
+								execute_action('duplicate_file', $trigger.attr('data-path'), name, $trigger, 'apply_file_duplicate');
+							}
 						}
 					}
-				}, old_name+" - copy");
+				});
 			},
 
 			select: function($trigger)
@@ -467,17 +479,29 @@ var encodeURL,show_animation,hide_animation,apply,apply_none,apply_img,apply_any
 				var path = file_container.attr('data-path');
 				var file_title = file_container.find('h4');
 				var old_name = $.trim(file_title.text());
-				bootbox.prompt(jQuery('#rename').val(), jQuery('#cancel').val(), jQuery('#ok').val(), function (name)
-				{
-					if (name !== null)
+				bootbox.prompt({
+					title: jQuery('#rename').val(),
+					value: old_name,
+					buttons: {
+						confirm: {
+							label: jQuery('#ok').val()
+						},
+						cancel: {
+							label: jQuery('#cancel').val()
+						}
+					},
+					callback: function (name)
 					{
-						name = fix_filename(name);
-						if (name != old_name)
+						if (name !== null)
 						{
-							execute_action('rename_file', path, name, file_container, 'apply_file_rename');
+							name = fix_filename(name);
+							if (name != old_name)
+							{
+								execute_action('rename_file', path, name, file_container, 'apply_file_rename');
+							}
 						}
 					}
-				}, old_name);
+				});
 			});
 
 			grid.on('click', '.rename-folder', function ()
@@ -488,31 +512,60 @@ var encodeURL,show_animation,hide_animation,apply,apply_none,apply_img,apply_any
 
 				var file_title = file_container.find('h4');
 				var old_name = $.trim(file_title.text());
-				bootbox.prompt(jQuery('#rename').val(), jQuery('#cancel').val(), jQuery('#ok').val(), function (name)
-				{
-					if (name !== null)
+				bootbox.prompt({
+					title: jQuery('#rename').val(),
+					value: old_name,
+					buttons: {
+						confirm: {
+							label: jQuery('#ok').val()
+						},
+						cancel: {
+							label: jQuery('#cancel').val()
+						}
+					},
+					callback: function (name)
 					{
-						name = fix_filename(name).replace('.', '');
-						if (name != old_name)
+						if (name !== null)
 						{
-							execute_action('rename_folder', path, name, file_container, 'apply_folder_rename');
+							name = fix_filename(name).replace('.', '');
+							if (name != old_name)
+							{
+								execute_action('rename_folder', path, name, file_container, 'apply_folder_rename');
+							}
 						}
 					}
-				}, old_name);
+				});
 			});
 
 			grid.on('click', '.delete-file', function ()
 			{
 				var _this = jQuery(this);
 				var path = _this.closest('figure').attr('data-path');
-				bootbox.confirm(_this.attr('data-confirm'), jQuery('#cancel').val(), jQuery('#ok').val(), function (result)
-				{
-					if (result == true)
+				bootbox.confirm({
+					message: _this.attr('data-confirm'),
+					buttons: {
+						confirm: {
+							label: jQuery('#ok').val()
+						},
+						cancel: {
+							label: jQuery('#cancel').val()
+						}
+					},
+					callback: function (result)
 					{
-						execute_action('delete_file', path, '', '', '');
+						if (result == true)
+						{
+													execute_action('delete_file', path, '', '', '');
 						var fil = jQuery('#files_number');
 						fil.text(parseInt(fil.text())-1);
-						_this.parent().parent().parent().parent().remove();
+						// Dispose tooltips before removing element
+						var element = _this.parent().parent().parent().parent();
+						element.find('.tip, .tip-top, .tip-left, .tip-right').each(function() {
+							var tooltip = bootstrap.Tooltip.getInstance(this);
+							if (tooltip) tooltip.dispose();
+						});
+						element.remove();
+						}
 					}
 				});
 			});
@@ -522,15 +575,32 @@ var encodeURL,show_animation,hide_animation,apply,apply_none,apply_img,apply_any
 				var _this = jQuery(this);
 				var path = _this.closest('figure').attr('data-path');
 
-				bootbox.confirm(_this.attr('data-confirm'), jQuery('#cancel').val(), jQuery('#ok').val(), function (result)
+				bootbox.confirm({
+					message: _this.attr('data-confirm'),
+					buttons: {
+						confirm: {
+							label: jQuery('#ok').val()
+						},
+						cancel: {
+							label: jQuery('#cancel').val()
+						}
+					},
+					callback: function (result)
 				{
 					if (result == true)
 					{
 						execute_action('delete_folder', path, '', '', '');
 						var fol = jQuery('#folders_number');
 						fol.text(parseInt(fol.text())-1);
-						_this.parent().parent().parent().remove();
+						// Dispose tooltips before removing element
+						var element = _this.parent().parent().parent();
+						element.find('.tip, .tip-top, .tip-left, .tip-right').each(function() {
+							var tooltip = bootstrap.Tooltip.getInstance(this);
+							if (tooltip) tooltip.dispose();
+						});
+						element.remove();
 					}
+				}
 				});
 			});
 
@@ -893,10 +963,20 @@ var encodeURL,show_animation,hide_animation,apply,apply_none,apply_img,apply_any
 
 		jQuery('.new-folder').on('click', function ()
 		{
-			bootbox.prompt(jQuery('#insert_folder_name').val(), jQuery('#cancel').val(), jQuery('#ok').val(), function (name)
-			{
-				if (name !== null)
+			bootbox.prompt({
+				title: jQuery('#insert_folder_name').val(),
+				buttons: {
+					confirm: {
+						label: jQuery('#ok').val()
+					},
+					cancel: {
+						label: jQuery('#cancel').val()
+					}
+				},
+				callback: function (name)
 				{
+					if (name !== null)
+					{
 					name = fix_filename(name).replace('.', '');
 					var folder_path = jQuery('#sub_folder').val() + jQuery('#fldr_value').val();
 					$.ajax({
@@ -919,6 +999,7 @@ var encodeURL,show_animation,hide_animation,apply,apply_none,apply_img,apply_any
 
 					});
 				}
+			}
 			});
 		});
 
@@ -1039,20 +1120,37 @@ var encodeURL,show_animation,hide_animation,apply,apply_none,apply_img,apply_any
 				return;
 			}
 			var _this = jQuery(this);
-			bootbox.confirm(_this.attr('data-confirm'), jQuery('#cancel').val(), jQuery('#ok').val(), function (result)
-			{
-				if (result == true)
+			bootbox.confirm({
+				message: _this.attr('data-confirm'),
+				buttons: {
+					confirm: {
+						label: jQuery('#ok').val()
+					},
+					cancel: {
+						label: jQuery('#cancel').val()
+					}
+				},
+				callback: function (result)
 				{
+					if (result == true)
+					{
 					var files = getFiles(true);
 
 					execute_multiple_action('delete_files', files, '', '', '');
 					var fil = jQuery('#files_number');
 					fil.text(parseInt(fil.text())-files.length);
 					jQuery('.selection:checkbox:checked:visible').each(function () {
-						jQuery(this).closest('li').remove();
+						var element = jQuery(this).closest('li');
+						// Dispose tooltips before removing element
+						element.find('.tip, .tip-top, .tip-left, .tip-right').each(function() {
+							var tooltip = bootstrap.Tooltip.getInstance(this);
+							if (tooltip) tooltip.dispose();
+						});
+						element.remove();
 					});
 					jQuery("#multiple-selection").hide(300);
 				}
+			}
 			});
 		});
 
@@ -1530,10 +1628,20 @@ var encodeURL,show_animation,hide_animation,apply,apply_none,apply_img,apply_any
 
 	function clear_clipboard()
 	{
-		bootbox.confirm(jQuery('#lang_clear_clipboard_confirm').val(), jQuery('#cancel').val(), jQuery('#ok').val(), function (result)
-		{
-			if (result == true)
+		bootbox.confirm({
+			message: jQuery('#lang_clear_clipboard_confirm').val(),
+			buttons: {
+				confirm: {
+					label: jQuery('#ok').val()
+				},
+				cancel: {
+					label: jQuery('#cancel').val()
+				}
+			},
+			callback: function (result)
 			{
+				if (result == true)
+				{
 				$.ajax({
 					type: "POST",
 					url: "ajax_calls.php?action=clear_clipboard",
@@ -1551,6 +1659,7 @@ var encodeURL,show_animation,hide_animation,apply,apply_none,apply_img,apply_any
 					toggle_clipboard(false);
 				});
 			}
+		}
 		});
 	}
 
@@ -1588,10 +1697,20 @@ var encodeURL,show_animation,hide_animation,apply,apply_none,apply_img,apply_any
 
 	function paste_to_this_dir(dnd)
 	{
-		bootbox.confirm(jQuery('#lang_paste_confirm').val(), jQuery('#cancel').val(), jQuery('#ok').val(), function (result)
-		{
-			if (result == true)
+		bootbox.confirm({
+			message: jQuery('#lang_paste_confirm').val(),
+			buttons: {
+				confirm: {
+					label: jQuery('#ok').val()
+				},
+				cancel: {
+					label: jQuery('#cancel').val()
+				}
+			},
+			callback: function (result)
 			{
+				if (result == true)
+				{
 				var folder_path;
 				if (typeof dnd != 'undefined')
 				{
@@ -1625,6 +1744,7 @@ var encodeURL,show_animation,hide_animation,apply,apply_none,apply_img,apply_any
 					}
 				});
 			}
+		}
 		});
 	}
 

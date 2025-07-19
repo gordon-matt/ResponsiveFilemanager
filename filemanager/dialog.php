@@ -963,17 +963,15 @@ if ($config['upload_files']) { ?>
     $files = $sorted;
     ?>
     <!-- header div start -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#"><?php
-                echo trans('Toolbar'); ?></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                    <div class="filters">
-                        <div class="row">
-                            <div class="col-md-4">
+                <div class="d-flex w-100">
+                    <!-- Action buttons on the left -->
+                    <div class="d-flex flex-wrap align-items-center me-auto">
                                 <?php
                                 if ($config['upload_files']) { ?>
                                     <button class="tip btn btn-success upload-btn" title="<?php
@@ -1026,31 +1024,37 @@ if ($config['upload_files']) { ?>
                                     <?php
                                     } ?>
                                 </div>
-                            </div>
-                            <div class="col-md-2 view-controller">
-                                <button class="btn tip<?php
-                                if ($view == 0) {
-                                    echo " btn-dark";
-                                } else {
-                                    echo " btn-secondary";
-                                } ?>" id="view0" data-value="0" title="<?php
-                                echo trans('View_boxes'); ?>"><i class="bi bi-grid-3x3"></i></button>
-                                <button class="btn tip<?php
-                                if ($view == 1) {
-                                    echo " btn-dark";
-                                } else {
-                                    echo " btn-secondary";
-                                } ?>" id="view1" data-value="1" title="<?php
-                                echo trans('View_list'); ?>"><i class="bi bi-list"></i></button>
-                                <button class="btn tip<?php
-                                if ($view == 2) {
-                                    echo " btn-dark";
-                                } else {
-                                    echo " btn-secondary";
-                                } ?>" id="view2" data-value="2" title="<?php
-                                echo trans('View_columns_list'); ?>"><i class="bi bi-columns"></i></button>
-                            </div>
-                            <div class="col-md-6 types">
+                    </div>
+                    
+                    <!-- Filters and controls on the right -->
+                    <div class="d-flex flex-nowrap align-items-center ms-auto">
+                        <!-- View controllers -->
+                        <div class="view-controller me-2">
+                            <button class="btn tip<?php
+                            if ($view == 0) {
+                                echo " btn-dark";
+                            } else {
+                                echo " btn-secondary";
+                            } ?>" id="view0" data-value="0" title="<?php
+                            echo trans('View_boxes'); ?>"><i class="bi bi-grid-3x3"></i></button>
+                            <button class="btn tip<?php
+                            if ($view == 1) {
+                                echo " btn-dark";
+                            } else {
+                                echo " btn-secondary";
+                            } ?>" id="view1" data-value="1" title="<?php
+                            echo trans('View_list'); ?>"><i class="bi bi-list"></i></button>
+                            <button class="btn tip<?php
+                            if ($view == 2) {
+                                echo " btn-dark";
+                            } else {
+                                echo " btn-secondary";
+                            } ?>" id="view2" data-value="2" title="<?php
+                            echo trans('View_columns_list'); ?>"><i class="bi bi-columns"></i></button>
+                        </div>
+                        
+                        <!-- Filter types and search -->
+                        <div class="d-flex flex-nowrap align-items-center types">
                                 <span><?php
                                     echo trans('Filters'); ?>:</span>
                                 <?php
@@ -1119,8 +1123,6 @@ if ($config['upload_files']) { ?>
                                 } ?> data-item="ff-item-type-all" for="select-type-all" style="margin-right:0px;"
                                        class="tip btn btn-dark ff-label-type-all"><?php
                                     echo trans('All'); ?></label>
-
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -1132,12 +1134,12 @@ if ($config['upload_files']) { ?>
 
     <!-- breadcrumb div start -->
 
-    <div class="row">
+    <div class="d-flex align-items-center">
         <?php
         $link = "dialog.php?" . $get_params;
         ?>
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
+        <nav aria-label="breadcrumb" class="flex-grow-1">
+            <ol class="breadcrumb mb-0">
                 <li class="breadcrumb-item"><a href="<?php
                     echo $link ?>/"><i class="bi bi-house"></i></a></li>
             <?php
@@ -1162,7 +1164,7 @@ if ($config['upload_files']) { ?>
 
             </ol>
         </nav>
-        <div class="ms-auto d-flex">
+        <div class="d-flex align-items-center ms-auto flex-shrink-0">
             <a class="btn btn-sm btn-secondary me-1" href="javascript:void('')" id="info"><i
                             class="bi bi-question-circle"></i></a>
             <?php

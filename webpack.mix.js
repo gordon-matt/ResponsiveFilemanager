@@ -10,6 +10,11 @@ mix.less(
     'resources/tmp/css/style.css',
 );
 
+mix.less(
+    'resources/assets/less/ui-improvements.less',
+    'resources/tmp/css/ui-improvements.css',
+);
+
 // Bootstrap lightbox removed - conflicts with Bootstrap v5
 // mix.less(
 //     'node_modules/bootstrap-lightbox/less/bootstrap-lightbox.less',
@@ -19,13 +24,13 @@ mix.less(
 mix.styles(
     [
         'node_modules/bootstrap/dist/css/bootstrap.min.css',
-        'node_modules/bootstrap-modal/css/bootstrap-modal.css',
         'node_modules/featherlight/src/featherlight.css',
         'node_modules/jquery-contextmenu/dist/jquery.contextMenu.css',
         'node_modules/tui-color-picker/dist/tui-color-picker.css',
         'node_modules/tui-image-editor/dist/tui-image-editor.css',
         // 'resources/tmp/css/lib.css', // Removed due to bootstrap-lightbox conflicts
         'resources/tmp/css/style.css',
+        'resources/tmp/css/ui-improvements.css',
     ],
     'filemanager/css/style.css',
 );
@@ -40,9 +45,9 @@ mix.styles(
 mix.scripts(
     [
         'node_modules/jquery-contextmenu/dist/jquery.contextMenu.js',
-        'node_modules/vanilla-lazyload/dist/lazyload.js',
+                'node_modules/vanilla-lazyload/dist/lazyload.js',
         'node_modules/jquery-scrollstop/jquery.scrollstop.js',
-        'node_modules/bootbox/dist/bootbox.min.js',
+        'resources/assets/js/bootbox-replacement.js',
         'node_modules/jquery-touchswipe/jquery.touchSwipe.js',
         'node_modules/featherlight/src/featherlight.js',
         'node_modules/clipboard/dist/clipboard.js',

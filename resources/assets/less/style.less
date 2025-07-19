@@ -14,7 +14,7 @@ body, html {
 }
 
 body {
-  padding-top: 32px;
+  padding-top: 56px; /* Adjusted for Bootstrap 5 navbar height */
   font-weight: 200;
   background: #ececec;
   overflow: -moz-scrollbars-vertical;
@@ -31,9 +31,12 @@ body {
   outline: none;
 }
 
+/* Bootstrap v2 btn-inverse compatibility */
 .btn-inverse {
   background-image: none !important;
   background: #333;
+  color: white;
+  border-color: #333;
 }
 
 pre.prettyprint, pre.no-prettify {
@@ -44,6 +47,7 @@ pre.prettyprint, pre.no-prettify {
   border-radius: 0 !important;
 }
 
+/* Legacy Bootstrap v2 input-append styles - not needed in v5 */
 .input-append .add-on:last-child,
 .input-append .btn:last-child,
 .input-append .btn-group:last-child > .dropdown-toggle {
@@ -81,7 +85,8 @@ pre.prettyprint, pre.no-prettify {
 }
 
 .container-fluid {
-  padding-right: 0 !important;
+  padding-right: 15px !important;
+  padding-left: 15px !important;
   margin-top: 10px !important;
 }
 
@@ -178,7 +183,7 @@ iframe {
   -webkit-box-shadow: 0 0 10px 0 rgba(1, 1, 1, 0.5);
   box-shadow: 0 0 10px 0 rgba(1, 1, 1, 0.5);
 
-  .flex {
+  .d-flex {
     padding: 10px;
     display: flex;
     flex-direction: column;
@@ -1017,7 +1022,7 @@ form {
       }
       figure {
         .box {
-          margin-left: 48px;
+          margin-left: 70px;
         }
       }
     }

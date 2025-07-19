@@ -359,6 +359,10 @@ $get_params = http_build_query($get_params);
     <meta name="robots" content="noindex,nofollow">
     <title>Responsive FileManager</title>
     <link rel="shortcut icon" href="img/ico/favicon.ico">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
     <link rel="stylesheet" href="css/jquery.fileupload.css">
     <link rel="stylesheet" href="css/jquery.fileupload-ui.css">
@@ -422,9 +426,9 @@ $get_params = http_build_query($get_params);
 </head>
 <body>
 <!-- Change: 2022-02-22: See https://github.com/trippo/ResponsiveFilemanager/issues/608 -->
-<script src="js/blueimp/tmpl.min.js"></script>
-<script src="js/blueimp/load-image.all.min.js"></script>
-<script src="js/blueimp/canvas-to-blob.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/blueimp-tmpl@3.20.0/js/tmpl.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/blueimp-load-image@5.16.0/js/load-image.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/blueimp-canvas-to-blob@3.29.0/js/canvas-to-blob.min.js"></script>
 
 <!-- The Templates plugin is included to render the upload/download listings -->
 <!--<script src="//blueimp.github.io/JavaScript-Templates/js/tmpl.min.js"></script> -->
@@ -616,26 +620,30 @@ echo $config['add_time_to_img']; ?>"/>
 if ($config['upload_files']) { ?>
     <!-- uploader div start -->
     <div class="uploader">
-        <div class="flex">
+        <div class="d-flex flex-column">
             <div class="text-center">
-                <button class="btn btn-inverse close-uploader"><i class="icon-backward icon-white"></i> <?php
+                <button class="btn btn-dark close-uploader"><i class="bi bi-arrow-left"></i> <?php
                     echo trans('Return_Files_List') ?></button>
             </div>
             <div class="space10"></div>
-            <div class="tabbable upload-tabbable"> <!-- Only required for left/right tabs -->
+            <div class="upload-tabbable">
                 <div class="container1">
-                    <ul class="nav nav-tabs">
-                        <li class="active"><a href="#baseUpload" data-toggle="tab"><?php
-                                echo trans('Upload_base'); ?></a></li>
+                    <ul class="nav nav-tabs" id="uploadTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="baseUpload-tab" data-bs-toggle="tab" data-bs-target="#baseUpload" type="button" role="tab" aria-controls="baseUpload" aria-selected="true"><?php
+                                echo trans('Upload_base'); ?></button>
+                        </li>
                         <?php
                         if ($config['url_upload']) { ?>
-                            <li><a href="#urlUpload" data-toggle="tab"><?php
-                                    echo trans('Upload_url'); ?></a></li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="urlUpload-tab" data-bs-toggle="tab" data-bs-target="#urlUpload" type="button" role="tab" aria-controls="urlUpload" aria-selected="false"><?php
+                                    echo trans('Upload_url'); ?></button>
+                            </li>
                         <?php
                         } ?>
                     </ul>
                     <div class="tab-content">
-                        <div class="tab-pane active" id="baseUpload">
+                        <div class="tab-pane fade show active" id="baseUpload" role="tabpanel" aria-labelledby="baseUpload-tab">
                             <!-- The file upload form used as target for the file upload widget -->
                             <form id="fileupload" action="" method="POST" enctype="multipart/form-data">
                                 <div class="container2">
@@ -643,9 +651,8 @@ if ($config['upload_files']) { ?>
                                         <!-- The global progress state -->
                                         <div class="fileupload-progress">
                                             <!-- The global progress bar -->
-                                            <div class="progress progress-striped active" role="progressbar"
-                                                 aria-valuemin="0" aria-valuemax="100">
-                                                <div class="bar bar-success" style="width:0%;"></div>
+                                            <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                                                <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="width:0%;"></div>
                                             </div>
                                             <!-- The extended global progress state -->
                                             <div class="progress-extended"></div>
@@ -653,14 +660,14 @@ if ($config['upload_files']) { ?>
                                         <div class="text-center">
                                             <!-- The fileinput-button span is used to style the file input field as button -->
                                             <span class="btn btn-success fileinput-button">
-                                        <i class="glyphicon glyphicon-plus"></i>
+                                        <i class="bi bi-plus"></i>
                                         <span><?php
                                             echo trans('Upload_add_files'); ?></span>
                                         <input type="file" name="files[]" multiple="multiple" accept="<?php
                                         echo '.' . implode(',.', $config['ext']); ?>">
                                     </span>
                                             <button type="submit" class="btn btn-warning start">
-                                                <i class="glyphicon glyphicon-upload"></i>
+                                                <i class="bi bi-upload"></i>
                                                 <span><?php
                                                     echo trans('Upload_start'); ?></span>
                                             </button>
@@ -670,7 +677,7 @@ if ($config['upload_files']) { ?>
                                     </div>
                                     <!-- The table listing the files available for upload/download -->
                                     <div id="filesTable">
-                                        <table role="presentation" class="table table-striped table-condensed small">
+                                        <table role="presentation" class="table table-striped table-sm">
                                             <tbody class="files"></tbody>
                                         </table>
                                     </div>
@@ -691,18 +698,18 @@ if ($config['upload_files']) { ?>
                             </td>
                             <td>
                                 <p class="size">Processing...</p>
-                                <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="bar bar-success" style="width:0%;"></div></div>
+                                <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="width:0%;"></div></div>
                             </td>
                             <td>
                                 {% if (!i && !o.options.autoUpload) { %}
                                     <button class="btn btn-primary start" disabled style="display:none">
-                                        <i class="glyphicon glyphicon-upload"></i>
+                                        <i class="bi bi-upload"></i>
                                         <span>Start</span>
                                     </button>
                                 {% } %}
                                 {% if (!i) { %}
                                     <button class="btn btn-link cancel">
-                                        <i class="icon-remove"></i>
+                                        <i class="bi bi-x"></i>
                                     </button>
                                 {% } %}
                             </td>
@@ -721,9 +728,9 @@ if ($config['upload_files']) { ?>
                             <td>
                                 <span class="preview">
                                     {% if (file.error) { %}
-                                    <i class="icon icon-remove"></i>
+                                    <i class="bi bi-x-circle text-danger"></i>
                                     {% } else { %}
-                                    <i class="icon icon-ok"></i>
+                                    <i class="bi bi-check-circle text-success"></i>
                                     {% } %}
                                 </span>
                             </td>
@@ -749,19 +756,19 @@ if ($config['upload_files']) { ?>
                         </div>
                         <?php
                         if ($config['url_upload']) { ?>
-                            <div class="tab-pane" id="urlUpload">
+                            <div class="tab-pane fade" id="urlUpload" role="tabpanel" aria-labelledby="urlUpload-tab">
                                 <br/>
-                                <form class="form-horizontal">
-                                    <div class="control-group">
-                                        <label class="control-label" for="url"><?php
+                                <form>
+                                    <div class="mb-3 row">
+                                        <label class="col-sm-2 col-form-label" for="url"><?php
                                             echo trans('Upload_url'); ?></label>
-                                        <div class="controls">
-                                            <input type="text" class="input-block-level" id="url" placeholder="<?php
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="url" placeholder="<?php
                                             echo trans('Upload_url'); ?>">
                                         </div>
                                     </div>
-                                    <div class="control-group">
-                                        <div class="controls">
+                                    <div class="mb-3 row">
+                                        <div class="col-sm-10 offset-sm-2">
                                             <button class="btn btn-primary" id="uploadURL"><?php
                                                 echo trans('Upload_file'); ?></button>
                                         </div>
@@ -956,20 +963,17 @@ if ($config['upload_files']) { ?>
     $files = $sorted;
     ?>
     <!-- header div start -->
-    <div class="navbar navbar-fixed-top">
-        <div class="navbar-inner">
-            <div class="container-fluid">
-                <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <div class="brand"><?php
-                    echo trans('Toolbar'); ?></div>
-                <div class="nav-collapse collapse">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"><?php
+                echo trans('Toolbar'); ?></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
                     <div class="filters">
-                        <div class="row-fluid">
-                            <div class="span4 half">
+                        <div class="row">
+                            <div class="col-md-4">
                                 <?php
                                 if ($config['upload_files']) { ?>
                                     <button class="tip btn btn-success upload-btn" title="<?php
@@ -978,23 +982,23 @@ if ($config['upload_files']) { ?>
                                 } ?>
                                 <?php
                                 if ($config['create_text_files']) { ?>
-                                    <button class="tip btn create-file-btn" title="<?php
-                                    echo trans('New_File'); ?>"><i class="icon-plus"></i><i class="icon-file"></i>
+                                    <button class="tip btn btn-secondary create-file-btn" title="<?php
+                                    echo trans('New_File'); ?>"><i class="bi bi-plus"></i><i class="bi bi-file-earmark"></i>
                                     </button>
                                 <?php
                                 } ?>
                                 <?php
                                 if ($config['create_folders']) { ?>
-                                    <button class="tip btn new-folder" title="<?php
-                                    echo trans('New_Folder') ?>"><i class="icon-plus"></i><i
-                                                class="icon-folder-open"></i></button>
+                                    <button class="tip btn btn-secondary new-folder" title="<?php
+                                    echo trans('New_Folder') ?>"><i class="bi bi-plus"></i><i
+                                                class="bi bi-folder-plus"></i></button>
                                 <?php
                                 } ?>
                                 <?php
                                 if ($config['copy_cut_files'] || $config['copy_cut_dirs']) { ?>
-                                    <button class="tip btn paste-here-btn" title="<?php
+                                    <button class="tip btn btn-secondary paste-here-btn" title="<?php
                                     echo trans('Paste_Here'); ?>"><i class="rficon-clipboard-apply"></i></button>
-                                    <button class="tip btn clear-clipboard-btn" title="<?php
+                                    <button class="tip btn btn-secondary clear-clipboard-btn" title="<?php
                                     echo trans('Clear_Clipboard'); ?>"><i class="rficon-clipboard-clear"></i></button>
                                 <?php
                                 } ?>
@@ -1003,18 +1007,18 @@ if ($config['upload_files']) { ?>
                                     if ($config['multiple_selection']) { ?>
                                         <?php
                                         if ($config['delete_files']) { ?>
-                                            <button class="tip btn multiple-delete-btn" title="<?php
+                                            <button class="tip btn btn-danger multiple-delete-btn" title="<?php
                                             echo trans('Erase'); ?>" data-confirm="<?php
-                                            echo trans('Confirm_del'); ?>"><i class="icon-trash"></i></button>
+                                            echo trans('Confirm_del'); ?>"><i class="bi bi-trash"></i></button>
                                         <?php
                                         } ?>
-                                        <button class="tip btn multiple-select-btn" title="<?php
-                                        echo trans('Select_All'); ?>"><i class="icon-check"></i></button>
-                                        <button class="tip btn multiple-deselect-btn" title="<?php
-                                        echo trans('Deselect_All'); ?>"><i class="icon-ban-circle"></i></button>
+                                        <button class="tip btn btn-secondary multiple-select-btn" title="<?php
+                                        echo trans('Select_All'); ?>"><i class="bi bi-check-square"></i></button>
+                                        <button class="tip btn btn-secondary multiple-deselect-btn" title="<?php
+                                        echo trans('Deselect_All'); ?>"><i class="bi bi-square"></i></button>
                                         <?php
                                         if ($apply_type != "apply_none" && $config['multiple_selection_action_button']) { ?>
-                                            <button class="btn multiple-action-btn btn-inverse" data-function="<?php
+                                            <button class="btn multiple-action-btn btn-dark" data-function="<?php
                                             echo $apply_type; ?>"><?php
                                                 echo trans('Select'); ?></button>
                                         <?php
@@ -1023,33 +1027,30 @@ if ($config['upload_files']) { ?>
                                     } ?>
                                 </div>
                             </div>
-                            <div class="span2 half view-controller">
+                            <div class="col-md-2 view-controller">
                                 <button class="btn tip<?php
                                 if ($view == 0) {
-                                    echo " btn-inverse";
+                                    echo " btn-dark";
+                                } else {
+                                    echo " btn-secondary";
                                 } ?>" id="view0" data-value="0" title="<?php
-                                echo trans('View_boxes'); ?>"><i class="icon-th <?php
-                                    if ($view == 0) {
-                                        echo "icon-white";
-                                    } ?>"></i></button>
+                                echo trans('View_boxes'); ?>"><i class="bi bi-grid-3x3"></i></button>
                                 <button class="btn tip<?php
                                 if ($view == 1) {
-                                    echo " btn-inverse";
+                                    echo " btn-dark";
+                                } else {
+                                    echo " btn-secondary";
                                 } ?>" id="view1" data-value="1" title="<?php
-                                echo trans('View_list'); ?>"><i class="icon-align-justify <?php
-                                    if ($view == 1) {
-                                        echo "icon-white";
-                                    } ?>"></i></button>
+                                echo trans('View_list'); ?>"><i class="bi bi-list"></i></button>
                                 <button class="btn tip<?php
                                 if ($view == 2) {
-                                    echo " btn-inverse";
+                                    echo " btn-dark";
+                                } else {
+                                    echo " btn-secondary";
                                 } ?>" id="view2" data-value="2" title="<?php
-                                echo trans('View_columns_list'); ?>"><i class="icon-fire <?php
-                                    if ($view == 2) {
-                                        echo "icon-white";
-                                    } ?>"></i></button>
+                                echo trans('View_columns_list'); ?>"><i class="bi bi-columns"></i></button>
                             </div>
-                            <div class="span6 entire types">
+                            <div class="col-md-6 types">
                                 <span><?php
                                     echo trans('Filters'); ?>:</span>
                                 <?php
@@ -1057,66 +1058,66 @@ if ($config['upload_files']) { ?>
                                     <?php
                                     if (count($config['ext_file']) > 0) { ?>
                                         <input id="select-type-1" name="radio-sort" type="radio"
-                                               data-item="ff-item-type-1" checked="checked" class="hide"/>
+                                               data-item="ff-item-type-1" class="d-none"/>
                                         <label id="ff-item-type-1" title="<?php
-                                        echo trans('Files'); ?>" for="select-type-1" class="tip btn ff-label-type-1"><i
-                                                    class="icon-file"></i></label>
+                                        echo trans('Files'); ?>" for="select-type-1" class="tip btn btn-secondary ff-label-type-1"><i
+                                                    class="bi bi-file-earmark"></i></label>
                                     <?php
                                     } ?>
                                     <?php
                                     if (count($config['ext_img']) > 0) { ?>
                                         <input id="select-type-2" name="radio-sort" type="radio"
-                                               data-item="ff-item-type-2" class="hide"/>
+                                               data-item="ff-item-type-2" class="d-none"/>
                                         <label id="ff-item-type-2" title="<?php
-                                        echo trans('Images'); ?>" for="select-type-2" class="tip btn ff-label-type-2"><i
-                                                    class="icon-picture"></i></label>
+                                        echo trans('Images'); ?>" for="select-type-2" class="tip btn btn-secondary ff-label-type-2"><i
+                                                    class="bi bi-image"></i></label>
                                     <?php
                                     } ?>
                                     <?php
                                     if (count($config['ext_misc']) > 0) { ?>
                                         <input id="select-type-3" name="radio-sort" type="radio"
-                                               data-item="ff-item-type-3" class="hide"/>
+                                               data-item="ff-item-type-3" class="d-none"/>
                                         <label id="ff-item-type-3" title="<?php
-                                        echo trans('Archives'); ?>" for="select-type-3" class="tip btn ff-label-type-3"><i
-                                                    class="icon-inbox"></i></label>
+                                        echo trans('Archives'); ?>" for="select-type-3" class="tip btn btn-secondary ff-label-type-3"><i
+                                                    class="bi bi-archive"></i></label>
                                     <?php
                                     } ?>
                                     <?php
                                     if (count($config['ext_video']) > 0) { ?>
                                         <input id="select-type-4" name="radio-sort" type="radio"
-                                               data-item="ff-item-type-4" class="hide"/>
+                                               data-item="ff-item-type-4" class="d-none"/>
                                         <label id="ff-item-type-4" title="<?php
-                                        echo trans('Videos'); ?>" for="select-type-4" class="tip btn ff-label-type-4"><i
-                                                    class="icon-film"></i></label>
+                                        echo trans('Videos'); ?>" for="select-type-4" class="tip btn btn-secondary ff-label-type-4"><i
+                                                    class="bi bi-camera-video"></i></label>
                                     <?php
                                     } ?>
                                     <?php
                                     if (count($config['ext_music']) > 0) { ?>
                                         <input id="select-type-5" name="radio-sort" type="radio"
-                                               data-item="ff-item-type-5" class="hide"/>
+                                               data-item="ff-item-type-5" class="d-none"/>
                                         <label id="ff-item-type-5" title="<?php
-                                        echo trans('Music'); ?>" for="select-type-5" class="tip btn ff-label-type-5"><i
-                                                    class="icon-music"></i></label>
+                                        echo trans('Music'); ?>" for="select-type-5" class="tip btn btn-secondary ff-label-type-5"><i
+                                                    class="bi bi-music-note"></i></label>
                                     <?php
                                     } ?>
                                 <?php
                                 } ?>
-                                <input accesskey="f" type="text" class="filter-input <?php
+                                <input accesskey="f" type="text" class="form-control d-inline-block filter-input <?php
                                 echo(($_GET['type'] != 1 && $_GET['type'] != 3) ? '' : 'filter-input-notype'); ?>"
                                        id="filter-input" name="filter" placeholder="<?php
                                 echo fix_strtolower(trans('Text_filter')); ?>..." value="<?php
-                                echo $filter; ?>"/><?php
-                                if ($n_files > $config['file_number_limit_js']) { ?><label id="filter" class="btn"><i
-                                            class="icon-play"></i></label><?php
+                                echo $filter; ?>" style="width: auto;"/><?php
+                                if ($n_files > $config['file_number_limit_js']) { ?><label id="filter" class="btn btn-secondary"><i
+                                            class="bi bi-play-fill"></i></label><?php
                                 } ?>
 
                                 <input id="select-type-all" name="radio-sort" type="radio" data-item="ff-item-type-all"
-                                       class="hide"/>
+                                       class="d-none" checked="checked"/>
                                 <label id="ff-item-type-all" title="<?php
                                 echo trans('All'); ?>" <?php
                                        if ($_GET['type'] == 1 || $_GET['type'] == 3){ ?>style="visibility: hidden;" <?php
-                                } ?> data-item="ff-item-type-all" for="select-type-all" style="margin-rigth:0px;"
-                                       class="tip btn btn-inverse ff-label-type-all"><?php
+                                } ?> data-item="ff-item-type-all" for="select-type-all" style="margin-right:0px;"
+                                       class="tip btn btn-dark ff-label-type-all"><?php
                                     echo trans('All'); ?></label>
 
                             </div>
@@ -1125,20 +1126,20 @@ if ($config['upload_files']) { ?>
                 </div>
             </div>
         </div>
-    </div>
+    </nav>
 
     <!-- header div end -->
 
     <!-- breadcrumb div start -->
 
-    <div class="row-fluid">
+    <div class="row">
         <?php
         $link = "dialog.php?" . $get_params;
         ?>
-        <ul class="breadcrumb">
-            <li class="pull-left"><a href="<?php
-                echo $link ?>/"><i class="icon-home"></i></a></li>
-            <li><span class="divider">/</span></li>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="<?php
+                    echo $link ?>/"><i class="bi bi-house"></i></a></li>
             <?php
             $bc = explode("/", $subdir);
             $tmp_path = '';
@@ -1147,98 +1148,96 @@ if ($config['upload_files']) { ?>
                     $tmp_path .= $b . "/";
                     if ($k == count($bc) - 2) {
                         ?>
-                        <li class="active"><?php
+                        <li class="breadcrumb-item active" aria-current="page"><?php
                         echo $b ?></li><?php
                     } elseif ($b != "") { ?>
-                        <li><a href="<?php
+                        <li class="breadcrumb-item"><a href="<?php
                             echo $link . $tmp_path ?>"><?php
                                 echo $b ?></a></li>
-                        <li><span class="divider"><?php
-                                echo "/"; ?></span></li>
                     <?php
                     }
                 }
             }
             ?>
 
-            <li class="pull-right"><a class="btn-small" href="javascript:void('')" id="info"><i
-                            class="icon-question-sign"></i></a></li>
+            </ol>
+        </nav>
+        <div class="ms-auto d-flex">
+            <a class="btn btn-sm btn-secondary me-1" href="javascript:void('')" id="info"><i
+                            class="bi bi-question-circle"></i></a>
             <?php
             if ($config['show_language_selection']) { ?>
-                <li class="pull-right"><a class="btn-small" href="javascript:void('')" id="change_lang_btn"><i
-                                class="icon-globe"></i></a></li>
+                <a class="btn btn-sm btn-secondary me-1" href="javascript:void('')" id="change_lang_btn"><i
+                                class="bi bi-globe"></i></a>
             <?php
             } ?>
-            <li class="pull-right"><a id="refresh" class="btn-small" href="dialog.php?<?php
-                echo $get_params . $subdir . "&" . uniqid() ?>"><i class="icon-refresh"></i></a></li>
+            <a id="refresh" class="btn btn-sm btn-secondary me-1" href="dialog.php?<?php
+                echo $get_params . $subdir . "&" . uniqid() ?>"><i class="bi bi-arrow-clockwise"></i></a>
 
-            <li class="pull-right">
-                <div class="btn-group">
-                    <a class="btn dropdown-toggle sorting-btn" data-toggle="dropdown" href="#">
-                        <i class="icon-signal"></i>
-                        <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu pull-left sorting">
-                        <li class="text-center"><strong><?php
-                                echo trans('Sorting') ?></strong></li>
-                        <li><a class="sorter sort-name <?php
+            <div class="dropdown">
+                <a class="btn btn-sm btn-secondary dropdown-toggle sorting-btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-sort-down"></i>
+                </a>
+                <ul class="dropdown-menu sorting">
+                        <li><h6 class="dropdown-header"><?php
+                                echo trans('Sorting') ?></h6></li>
+                        <li><a class="dropdown-item sorter sort-name <?php
                             if ($sort_by === "name") {
                                 echo ($descending) ? "descending" : "ascending";
                             } ?>" href="javascript:void('')" data-sort="name"><?php
                                 echo trans('Filename'); ?></a></li>
-                        <li><a class="sorter sort-date <?php
+                        <li><a class="dropdown-item sorter sort-date <?php
                             if ($sort_by == "date") {
                                 echo ($descending) ? "descending" : "ascending";
                             } ?>" href="javascript:void('')" data-sort="date"><?php
                                 echo trans('Date'); ?></a></li>
-                        <li><a class="sorter sort-size <?php
+                        <li><a class="dropdown-item sorter sort-size <?php
                             if ($sort_by == "size") {
                                 echo ($descending) ? "descending" : "ascending";
                             } ?>" href="javascript:void('')" data-sort="size"><?php
                                 echo trans('Size'); ?></a></li>
-                        <li><a class="sorter sort-extension <?php
+                        <li><a class="dropdown-item sorter sort-extension <?php
                             if ($sort_by == "extension") {
                                 echo ($descending) ? "descending" : "ascending";
                             } ?>" href="javascript:void('')" data-sort="extension"><?php
                                 echo trans('Type'); ?></a></li>
                     </ul>
                 </div>
-            </li>
-            <li><small class="hidden-phone">(<span id="files_number"><?php
+            </div>
+            <small class="d-none d-sm-block">(<span id="files_number"><?php
                         echo $current_files_number . "</span> " . trans(
                                 'Files'
                             ) . " - <span id='folders_number'>" . $current_folders_number . "</span> " . trans(
                                 'Folders'
-                            ); ?>)</small></li>
+                            ); ?>)</small>
             <?php
             if ($config['show_total_size']) { ?>
-                <li><small class="hidden-phone"><span title="<?php
+                <small class="d-none d-sm-block"><span title="<?php
                         echo trans('total size') . $config['MaxSizeTotal']; ?>"><?php
                             echo trans('total size') . ": " . makeSize(
                                     $sizeCurrentFolder
                                 ) . (($config['MaxSizeTotal'] !== false && is_int(
                                         $config['MaxSizeTotal']
                                     )) ? '/' . $config['MaxSizeTotal'] . ' ' . trans('MB') : ''); ?></span></small>
-                </li>
             <?php
             } ?>
-        </ul>
+        </div>
     </div>
     <!-- breadcrumb div end -->
-    <div class="row-fluid ff-container">
-        <div class="span12">
+    <div class="row ff-container">
+        <div class="col-12">
             <?php if( ($ftp && !$ftp->isDir(
                     $config['ftp_base_folder'] . $config['upload_dir'] . $rfm_subfolder . $subdir
                 )) || (!$ftp && @opendir($config['current_path'] . $rfm_subfolder . $subdir) === false)){ ?>
             <br/>
-            <div class="alert alert-error">There is an error! The upload folder there isn't. Check your config.php
+            <div class="alert alert-danger">There is an error! The upload folder there isn't. Check your config.php
                 file.
             </div>
             <?php }else{ ?>
             <h4 id="help"><?php
                 echo trans('Swipe_help'); ?></h4>
             <?php if(isset($config['folder_message'])){ ?>
-            <div class="alert alert-block"><?php
+            <div class="alert alert-info"><?php
                 echo $config['folder_message']; ?></div>
             <?php } ?>
             <?php if($config['show_sorting_bar']){ ?>
@@ -1367,7 +1366,7 @@ if ($config['upload_files']) { ?>
                                 ) . "&" . ($callback ? 'callback=' . $callback . "&" : '') . uniqid() ?>">
                                 <div class="img-precontainer">
                                     <div class="img-container directory"><span></span>
-                                        <img class="directory-img" data-src="img/<?php
+                                        <img class="directory-img" src="img/<?php
                                         echo $config['icon_theme']; ?>/folder<?php
                                         if ($file == "..") {
                                             echo "_back";
@@ -1377,7 +1376,7 @@ if ($config['upload_files']) { ?>
                                 <div class="img-precontainer-mini directory">
                                     <div class="img-container-mini">
                                         <span></span>
-                                        <img class="directory-img" data-src="img/<?php
+                                        <img class="directory-img" src="img/<?php
                                         echo $config['icon_theme']; ?>/folder<?php
                                         if ($file == "..") {
                                             echo "_back";
@@ -1433,9 +1432,9 @@ if ($config['upload_files']) { ?>
                                 } ?>" title="<?php
                                 echo trans('Rename') ?>" data-folder="1" data-permissions="<?php
                                 echo $file_array['permissions']; ?>">
-                                    <i class="icon-pencil <?php
+                                    <i class="bi bi-pencil <?php
                                     if (!$config['rename_folders'] || $file_prevent_rename) {
-                                        echo 'icon-white';
+                                        echo 'text-muted';
                                     } ?>"></i></a>
                                 <a href="javascript:void('')" class="tip-left erase-button <?php
                                 if ($config['delete_folders'] && !$file_prevent_delete) {
@@ -1443,9 +1442,9 @@ if ($config['upload_files']) { ?>
                                 } ?>" title="<?php
                                 echo trans('Erase') ?>" data-confirm="<?php
                                 echo trans('Confirm_Folder_del'); ?>">
-                                    <i class="icon-trash <?php
+                                    <i class="bi bi-trash <?php
                                     if (!$config['delete_folders'] || $file_prevent_delete) {
-                                        echo 'icon-white';
+                                        echo 'text-muted';
                                     } ?>"></i>
                                 </a>
                             </figcaption>
@@ -1632,9 +1631,9 @@ if ($config['upload_files']) { ?>
                                 <div class="img-container">
                                     <img class="<?php
                                     echo $show_original ? "original" : "" ?><?php
-                                    echo $is_icon_thumb ? " icon" : "" ?>" data-src="<?php
-                                    echo $src_thumb; ?>" onerror="this.onerror=null; this.src="<?php
-                                    echo $src_thumb_default; ?>";">
+                                    echo $is_icon_thumb ? " icon" : "" ?>" src="<?php
+                                    echo $src_thumb; ?>" onerror="this.onerror=null; this.src='<?php
+                                    echo $src_thumb_default; ?>';">
                                 </div>
                             </div>
                             <div class="img-precontainer-mini <?php
@@ -1658,7 +1657,7 @@ if ($config['upload_files']) { ?>
                                     if ($mini_src != "") { ?>
                                         <img class="<?php
                                         echo $show_original_mini ? "original" : "" ?><?php
-                                        echo $is_icon_thumb_mini ? " icon" : "" ?>" data-src="<?php
+                                        echo $is_icon_thumb_mini ? " icon" : "" ?>" src="<?php
                                         echo $mini_src; ?>">
                                     <?php
                                     } ?>
@@ -1707,16 +1706,16 @@ if ($config['upload_files']) { ?>
                                 <a title="<?php
                                 echo trans('Download') ?>" class="tip-right" href="javascript:void('')" <?php
                                 if ($config['download_files']) echo "onclick=\"$('#form" . $nu . "').submit();\"" ?>><i
-                                            class="icon-download <?php
+                                            class="bi bi-download <?php
                                             if (!$config['download_files']) {
-                                                echo 'icon-white';
+                                                echo 'text-muted';
                                             } ?>"></i></a>
 
                                 <?php
                                 if ($is_img && $src_thumb != "") { ?>
                                     <a class="tip-right preview" title="<?php
                                     echo trans('Preview') ?>" data-featherlight="<?php
-                                    echo $src; ?>" href="#"><i class=" icon-eye-open"></i></a>
+                                    echo $src; ?>" href="#"><i class="bi bi-eye"></i></a>
                                 <?php
                                 } elseif (($is_video || $is_audio) && in_array(
                                         $file_array['extension'],
@@ -1733,14 +1732,14 @@ if ($config['upload_files']) { ?>
                                        data-url="ajax_calls.php?action=media_preview&title=<?php
                                        echo $filename; ?>&file=<?php
                                        echo $rfm_subfolder . $subdir . $file; ?>"
-                                       href="javascript:void('');"><i class=" icon-eye-open"></i></a>
+                                       href="javascript:void('');"><i class="bi bi-eye"></i></a>
                                 <?php
                                 } elseif (in_array($file_array['extension'], $config['cad_exts'])) { ?>
                                     <a class="tip-right file-preview-btn" title="<?php
                                     echo trans('Preview') ?>" data-url="ajax_calls.php?action=cad_preview&title=<?php
                                     echo $filename; ?>&file=<?php
                                     echo $rfm_subfolder . $subdir . $file; ?>"
-                                       href="javascript:void('');"><i class=" icon-eye-open"></i></a>
+                                       href="javascript:void('');"><i class="bi bi-eye"></i></a>
                                 <?php
                                 } elseif ($config['preview_text_files'] && in_array(
                                         $file_array['extension'],
@@ -1751,7 +1750,7 @@ if ($config['upload_files']) { ?>
                                        data-url="ajax_calls.php?action=get_file&sub_action=preview&preview_mode=text&title=<?php
                                        echo $filename; ?>&file=<?php
                                        echo $rfm_subfolder . $subdir . $file; ?>"
-                                       href="javascript:void('');"><i class=" icon-eye-open"></i></a>
+                                       href="javascript:void('');"><i class="bi bi-eye"></i></a>
                                 <?php
                                 } elseif ($config['googledoc_enabled'] && in_array(
                                         $file_array['extension'],
@@ -1762,10 +1761,10 @@ if ($config['upload_files']) { ?>
                                        data-url="ajax_calls.php?action=get_file&sub_action=preview&preview_mode=google&title=<?php
                                        echo $filename; ?>&file=<?php
                                        echo $rfm_subfolder . $subdir . $file; ?>"
-                                       href="docs.google.com;"><i class=" icon-eye-open"></i></a>
+                                       href="docs.google.com;"><i class="bi bi-eye"></i></a>
                                 <?php
                                 } else { ?>
-                                    <a class="preview disabled"><i class="icon-eye-open icon-white"></i></a>
+                                    <a class="preview disabled"><i class="bi bi-eye text-muted"></i></a>
                                 <?php
                                 } ?>
                                 <a href="javascript:void('')" class="tip-left edit-button rename-file-paths <?php
@@ -1774,9 +1773,9 @@ if ($config['upload_files']) { ?>
                                 } ?>" title="<?php
                                 echo trans('Rename') ?>" data-folder="0" data-permissions="<?php
                                 echo $file_array['permissions']; ?>">
-                                    <i class="icon-pencil <?php
+                                    <i class="bi bi-pencil <?php
                                     if (!$config['rename_files'] || $file_prevent_rename) {
-                                        echo 'icon-white';
+                                        echo 'text-muted';
                                     } ?>"></i></a>
 
                                 <a href="javascript:void('')" class="tip-left erase-button <?php
@@ -1785,9 +1784,9 @@ if ($config['upload_files']) { ?>
                                 } ?>" title="<?php
                                 echo trans('Erase') ?>" data-confirm="<?php
                                 echo trans('Confirm_del'); ?>">
-                                    <i class="icon-trash <?php
+                                    <i class="bi bi-trash <?php
                                     if (!$config['delete_files'] || $file_prevent_delete) {
-                                        echo 'icon-white';
+                                        echo 'text-muted';
                                     } ?>"></i>
                                 </a>
                             </form>
@@ -1823,14 +1822,18 @@ if ($config['upload_files']) { ?>
 <!-- loading div end -->
 
 <!-- player div start -->
-<div class="modal hide" id="previewAV">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h3><?php
-            echo trans('Preview'); ?></h3>
-    </div>
-    <div class="modal-body">
-        <div class="row-fluid body-preview">
+<div class="modal fade" id="previewAV" tabindex="-1" aria-labelledby="previewAVLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="previewAVLabel"><?php
+                    echo trans('Preview'); ?></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row body-preview">
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -1839,7 +1842,7 @@ if ($config['upload_files']) { ?>
 <?php
 if ($config['tui_active']) { ?>
 
-    <div id="tui-image-editor" style="height: 800px; position: fixed;" class="hide">
+    <div id="tui-image-editor" style="height: 800px; position: fixed; display: none;" class="d-none">
         <canvas></canvas>
     </div>
 
@@ -1911,7 +1914,7 @@ if ($config['tui_active']) { ?>
             function exitTUI() {
                 imageEditor.clearObjects();
                 imageEditor.discardSelection();
-                $('#tui-image-editor').addClass('hide');
+                $('#tui-image-editor').addClass('d-none').hide();
             }
 
             function saveTUI() {
@@ -1949,5 +1952,7 @@ if ($config['tui_active']) { ?>
         $('li').draggable({disabled: true});
     }
 </script>
+<!-- Bootstrap 5 JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -413,11 +413,11 @@ var encodeURL,show_animation,hide_animation,apply,apply_none,apply_img,apply_any
 
 				var previewElement = jQuery('#previewAV');
 				var bodyPreviewElement = jQuery(".body-preview");
-				previewElement.removeData("modal");
-				previewElement.modal({
+				var previewModal = new bootstrap.Modal(previewElement[0], {
 					backdrop: 'static',
 					keyboard: false
 				});
+				previewModal.show();
 
 				if (_this.hasClass('audio'))
 				{
@@ -837,7 +837,12 @@ var encodeURL,show_animation,hide_animation,apply,apply_none,apply_img,apply_any
 		});
 
 		jQuery('body').on('click', function (){ 
-			jQuery('.tip-right').tooltip('hide'); 
+			// Hide all tooltips on body click
+			var tooltips = document.querySelectorAll('.tip, .tip-top, .tip-left, .tip-right');
+			tooltips.forEach(function(el) {
+				var tooltip = bootstrap.Tooltip.getInstance(el);
+				if (tooltip) tooltip.hide();
+			});
 		});
 
 		FileManager.bindGridEvents();
@@ -962,10 +967,15 @@ var encodeURL,show_animation,hide_animation,apply,apply_none,apply_img,apply_any
 
 		if (!Modernizr.touch)
 		{
-			jQuery('.tip').tooltip({ placement: "bottom" });
-			jQuery('.tip-top').tooltip({ placement: "top" });
-			jQuery('.tip-left').tooltip({ placement: "left" });
-			jQuery('.tip-right').tooltip({ placement: "right" });
+			// Initialize Bootstrap 5 tooltips
+			var tooltipTriggerList = [].slice.call(document.querySelectorAll('.tip, .tip-top, .tip-left, .tip-right'));
+			tooltipTriggerList.map(function (tooltipTriggerEl) {
+				var placement = 'bottom';
+				if (tooltipTriggerEl.classList.contains('tip-top')) placement = 'top';
+				if (tooltipTriggerEl.classList.contains('tip-left')) placement = 'left';
+				if (tooltipTriggerEl.classList.contains('tip-right')) placement = 'right';
+				return new bootstrap.Tooltip(tooltipTriggerEl, { placement: placement });
+			});
 			jQuery('body').addClass('no-touch');
 		}
 		else
@@ -2095,7 +2105,12 @@ var encodeURL,show_animation,hide_animation,apply,apply_none,apply_img,apply_any
 		console.log(el);
 		var _this = el.parent().find('form a');
 		_this[1].click();
-		jQuery('.tip-right').tooltip('hide');
+		// Hide all tooltips
+		var tooltips = document.querySelectorAll('.tip, .tip-top, .tip-left, .tip-right');
+		tooltips.forEach(function(el) {
+			var tooltip = bootstrap.Tooltip.getInstance(el);
+			if (tooltip) tooltip.hide();
+		});
 	}
 
 	function getUrlParam(paramName)
@@ -2142,8 +2157,11 @@ var encodeURL,show_animation,hide_animation,apply,apply_none,apply_img,apply_any
 		}
 		else
 		{
-			if (typeof parent.jQuery(".modal:has(iframe)").modal == "function"){
-				parent.jQuery(".modal:has(iframe)").modal("hide");
+			// Hide parent modal if it exists
+			var parentModal = parent.document.querySelector(".modal:has(iframe)");
+			if (parentModal) {
+				var modalInstance = bootstrap.Modal.getInstance(parentModal);
+				if (modalInstance) modalInstance.hide();
 			}
 			if (typeof parent.jQuery !== "undefined" && parent.jQuery)
 			{

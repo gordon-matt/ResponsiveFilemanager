@@ -24,6 +24,8 @@ mix.less(
 mix.styles(
     [
         'node_modules/bootstrap/dist/css/bootstrap.min.css',
+        'resources/assets/css/bootstrap-icons-fix.css',
+        'node_modules/jplayer/dist/skin/blue.monday/css/jplayer.blue.monday.min.css',
         'node_modules/featherlight/src/featherlight.css',
         'node_modules/jquery-contextmenu/dist/jquery.contextMenu.css',
         'node_modules/tui-color-picker/dist/tui-color-picker.css',
@@ -42,10 +44,33 @@ mix.styles(
     'filemanager/css/rtl-style.css',
 );
 
+// Main vendor libraries bundle
+mix.scripts(
+    [
+        'node_modules/jquery/dist/jquery.min.js',
+        'node_modules/jquery-ui/dist/jquery-ui.min.js',
+        'node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',
+        'node_modules/bootbox/dist/bootbox.min.js',
+    ],
+    'filemanager/js/vendor.js',
+);
+
+// File upload related scripts
+mix.scripts(
+    [
+        'node_modules/blueimp-tmpl/js/tmpl.min.js',
+        'node_modules/blueimp-load-image/js/load-image.all.min.js',
+        'node_modules/blueimp-canvas-to-blob/js/canvas-to-blob.min.js',
+        'node_modules/jplayer/dist/jplayer/jquery.jplayer.min.js',
+        'node_modules/file-saver/dist/FileSaver.min.js',
+    ],
+    'filemanager/js/upload-libs.js',
+);
+
 mix.scripts(
     [
         'node_modules/jquery-contextmenu/dist/jquery.contextMenu.js',
-                'node_modules/vanilla-lazyload/dist/lazyload.js',
+        'node_modules/vanilla-lazyload/dist/lazyload.js',
         'node_modules/jquery-scrollstop/jquery.scrollstop.js',
         'node_modules/jquery-touchswipe/jquery.touchSwipe.js',
         'node_modules/featherlight/src/featherlight.js',
@@ -67,6 +92,9 @@ mix.scripts(
 
 mix.copy('node_modules/blueimp-file-upload/js', 'filemanager/js/');
 mix.copy('node_modules/blueimp-file-upload/css', 'filemanager/css/');
+
+// Copy Bootstrap Icons fonts to the CSS directory where they're expected
+mix.copy('node_modules/bootstrap-icons/font/fonts', 'filemanager/css/fonts');
 
 mix.scripts(
     [

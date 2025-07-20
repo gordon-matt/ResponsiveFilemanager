@@ -282,4 +282,7 @@ input[name="radio-sort"]:not(:checked) + label {
     margin: 0 0.25rem !important;
     white-space: nowrap;
   }
-} 
+}
+
+// Fix Bootstrap Icons font paths to work with our webpack setup
+// Note: Bootstrap Icons CSS is included in webpack bundle, fonts are copied separately 

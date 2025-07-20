@@ -784,42 +784,33 @@ var encodeURL,show_animation,hide_animation,apply,apply_none,apply_img,apply_any
 		},
 
 		setActiveFilterButton: function() {
-			// Check what file types are currently visible to determine active filter
-			var allFiles = jQuery('#main-item-container li:not(.back)');
-			var visibleFiles = allFiles.filter(':visible');
-			var hasImages = false, hasFiles = false, hasArchives = false, hasVideos = false, hasMusic = false;
+			// Check localStorage for the active filter (this is how the filter system persists state)
+			var activeFilter = '';
+			if (typeof(Storage) !== "undefined") {
+				activeFilter = localStorage.getItem("sort") || '';
+			}
 			
-			// Count each type in visible files
-			var imageCount = visibleFiles.filter('.ff-item-type-2').length;
-			var fileCount = visibleFiles.filter('.ff-item-type-1').length;
-			var archiveCount = visibleFiles.filter('.ff-item-type-3').length;
-			var videoCount = visibleFiles.filter('.ff-item-type-4').length;
-			var musicCount = visibleFiles.filter('.ff-item-type-5').length;
-			
-			// Check if we have files of each type
-			hasImages = imageCount > 0;
-			hasFiles = fileCount > 0;
-			hasArchives = archiveCount > 0;
-			hasVideos = videoCount > 0;
-			hasMusic = musicCount > 0;
-			
-			// Count how many different types we have
-			var typeCount = (hasImages ? 1 : 0) + (hasFiles ? 1 : 0) + (hasArchives ? 1 : 0) + (hasVideos ? 1 : 0) + (hasMusic ? 1 : 0);
-			
-			// If only one type is visible and it represents ALL files of that type, select that filter
-			var totalVisibleFiles = visibleFiles.length;
-			
-			if (typeCount === 1 && totalVisibleFiles > 0) {
-				// Only one type is visible - select that type's filter
-				if (hasImages && imageCount === totalVisibleFiles) jQuery('#select-type-2').prop('checked', true);
-				else if (hasFiles && fileCount === totalVisibleFiles) jQuery('#select-type-1').prop('checked', true);
-				else if (hasArchives && archiveCount === totalVisibleFiles) jQuery('#select-type-3').prop('checked', true);
-				else if (hasVideos && videoCount === totalVisibleFiles) jQuery('#select-type-4').prop('checked', true);
-				else if (hasMusic && musicCount === totalVisibleFiles) jQuery('#select-type-5').prop('checked', true);
-				else jQuery('#select-type-all').prop('checked', true);
-			} else {
-				// Multiple types or no filtering - select "All"
+			// Check if there's a text filter active
+			var currentTextFilter = jQuery('#filter-input').val() || '';
+			if (currentTextFilter.trim() !== '') {
 				jQuery('#select-type-all').prop('checked', true);
+				return;
+			}
+			
+			// Clear all selections first
+			jQuery('input[name=radio-sort]').prop('checked', false);
+			
+			// Set the correct filter based on localStorage or default to "all"
+			if (activeFilter && jQuery('#' + activeFilter).length > 0) {
+				// If we have a stored filter and the element exists, use it
+				jQuery('input[data-item="' + activeFilter + '"]').prop('checked', true);
+			} else {
+				// Default to "All" if no stored filter or invalid filter
+				jQuery('#select-type-all').prop('checked', true);
+				// Clear any invalid localStorage entry
+				if (typeof(Storage) !== "undefined") {
+					localStorage.removeItem("sort");
+				}
 			}
 		},
 
@@ -971,8 +962,10 @@ var encodeURL,show_animation,hide_animation,apply,apply_none,apply_img,apply_any
 		FileManager.makeFilters(js_script);
 		FileManager.uploadURL();
 		
-		// Set correct filter button as active on page load
-		FileManager.setActiveFilterButton();
+		// Set correct filter button as active on page load (with small delay to ensure DOM is ready)
+		setTimeout(function() {
+			FileManager.setActiveFilterButton();
+		}, 100);
 
 		// info btn
 		jQuery('#info').on('click', function ()

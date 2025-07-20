@@ -24,7 +24,7 @@ mix.less(
 mix.styles(
     [
         'node_modules/bootstrap/dist/css/bootstrap.min.css',
-        'resources/assets/css/bootstrap-icons-fix.css',
+        'node_modules/bootstrap-icons/font/bootstrap-icons.css',
         'node_modules/jplayer/dist/skin/blue.monday/css/jplayer.blue.monday.min.css',
         'node_modules/featherlight/src/featherlight.css',
         'node_modules/jquery-contextmenu/dist/jquery.contextMenu.css',
@@ -93,8 +93,7 @@ mix.scripts(
 mix.copy('node_modules/blueimp-file-upload/js', 'filemanager/js/');
 mix.copy('node_modules/blueimp-file-upload/css', 'filemanager/css/');
 
-// Copy Bootstrap Icons fonts to the CSS directory where they're expected
-mix.copy('node_modules/bootstrap-icons/font/fonts', 'filemanager/css/fonts');
+// Bootstrap Icons fonts will be handled automatically by CSS url() references
 
 mix.scripts(
     [
@@ -130,7 +129,3 @@ mix.scripts(
     ],
     'filemanager/js/load_more.js',
 );
-
-// Blueimp files now loaded via CDN
-// mix.copy('node_modules/blueimp-file-upload/js', 'filemanager/js/blueimp');
-// mix.copy('node_modules/blueimp-file-upload/css', 'filemanager/css/blueimp');

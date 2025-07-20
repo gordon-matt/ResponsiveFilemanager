@@ -266,7 +266,7 @@ if (isset($_GET["sort_by"])) {
 }
 
 if (!isset($_SESSION['RF']['descending'])) {
-    $_SESSION['RF']['descending'] = true;
+    $_SESSION['RF']['descending'] = false;
 }
 
 if (isset($_GET["descending"])) {
@@ -410,7 +410,6 @@ $get_params = http_build_query($get_params);
     echo $version; ?>"></script>
 </head>
 <body>
-<!-- Blueimp upload scripts now bundled in upload-libs.js -->
 
 <!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
 <script src="js/jquery.iframe-transport.js"></script>

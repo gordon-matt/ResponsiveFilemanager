@@ -933,7 +933,10 @@ var encodeURL,show_animation,hide_animation,apply,apply_none,apply_img,apply_any
 		// info btn
 		jQuery('#info').on('click', function ()
 		{
-			bootbox.alert('<div class="text-center"><br/><img src="img/logo.png" alt="responsive filemanager"/><br/><br/><p><strong>RESPONSIVE filemanager v.' + version + '</strong><br/><a href="http://www.responsivefilemanager.com">responsivefilemanager.com</a></p><br/><p>Copyright © <a href="http://www.tecrail.com" alt="tecrail">Tecrail</a> - Alberto Peripolli. All rights reserved.</p><br/><p>License<br/><small><img alt="Creative Commons License" style="border-width:0" src="https://www.responsivefilemanager.com/license.php" /><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/">Creative Commons Attribution-NonCommercial 3.0 Unported License</a>.</small></p></div>');
+			bootbox.alert({
+				message: '<div class="text-center"><br/><img src="img/logo.png" alt="responsive filemanager"/><br/><br/><p><strong>RESPONSIVE filemanager v.' + version + '</strong><br/><a href="http://www.responsivefilemanager.com">responsivefilemanager.com</a></p><br/><p>Copyright © <a href="http://www.tecrail.com" alt="tecrail">Tecrail</a> - Alberto Peripolli. All rights reserved.</p><br/><p>License<br/><small><img alt="Creative Commons License" style="border-width:0" src="https://www.responsivefilemanager.com/license.php" /><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/">Creative Commons Attribution-NonCommercial 3.0 Unported License</a>.</small></p></div>',
+				backdrop: true
+			});
 		});
 
 		jQuery('#change_lang_btn').on('click', function ()
@@ -1284,52 +1287,56 @@ var encodeURL,show_animation,hide_animation,apply,apply_none,apply_img,apply_any
 			type: "GET",
 			url: "ajax_calls.php?action=new_file_form"
 		}).done(function (status_msg){
-			bootbox.dialog(status_msg,
-			[
-				{
-					"label": jQuery('#cancel').val(),
-					"class": "btn"
-				},
-				{
-					"label": jQuery('#ok').val(),
-					"class": "btn-inverse",
-					"callback": function ()
-					{
-						var newFileName = jQuery('#create_text_file_name').val()+jQuery('#create_text_file_extension').val();
-						var newContent = jQuery('#textfile_create_area').val();
-
-						if (newFileName !== null)
+			bootbox.dialog({
+				title: jQuery('#lang_new_file').val(),
+				message: status_msg,
+				backdrop: true,
+				buttons: {
+					cancel: {
+						label: jQuery('#cancel').val(),
+						className: "btn-light"
+					},
+					ok: {
+						label: jQuery('#ok').val(),
+						className: "btn-primary",
+						callback: function ()
 						{
-							newFileName = fix_filename(newFileName);
-							var folder_path = jQuery('#sub_folder').val() + jQuery('#fldr_value').val();
-							// post ajax
-							$.ajax({
-								type: "POST",
-								url: "execute.php?action=create_file",
-								data: {
-									path: folder_path,
-									name: newFileName,
-									new_content: newContent
-								}
-							}).done(function (status_msg)
+							var newFileName = jQuery('#create_text_file_name').val()+jQuery('#create_text_file_extension').val();
+							var newContent = jQuery('#textfile_create_area').val();
+
+							if (newFileName !== null)
 							{
-								if (status_msg != "")
+								newFileName = fix_filename(newFileName);
+								var folder_path = jQuery('#sub_folder').val() + jQuery('#fldr_value').val();
+								// post ajax
+								$.ajax({
+									type: "POST",
+									url: "execute.php?action=create_file",
+									data: {
+										path: folder_path,
+										name: newFileName,
+										new_content: newContent
+									}
+								}).done(function (status_msg)
 								{
-									bootbox.alert(status_msg, function (/*result*/)
+									if (status_msg != "")
 									{
-										setTimeout(function ()
-										{
-											window.location.href = jQuery('#refresh').attr('href') + '&' + new Date().getTime();
-										}, 500);
-									});
-								}
-							});
+										bootbox.alert({
+											message: status_msg,
+											callback: function (/*result*/)
+											{
+												setTimeout(function ()
+												{
+													window.location.href = jQuery('#refresh').attr('href') + '&' + new Date().getTime();
+												}, 500);
+											}
+										});
+									}
+								});
+							}
 						}
 					}
 				}
-			],
-			{
-				"header": jQuery('#lang_new_file').val()
 			});
 		});
 	}
@@ -1347,16 +1354,19 @@ var encodeURL,show_animation,hide_animation,apply,apply_none,apply_img,apply_any
 			data: { path: full_path }
 		}).done(function (init_content)
 		{
-			bootbox.dialog(init_content,
-				[
-					{
-						"label": jQuery('#cancel').val(),
-						"class": "btn"
+			bootbox.dialog({
+				title: $trigger.find('.name_download').val(),
+				message: init_content,
+				backdrop: true,
+				buttons: {
+					cancel: {
+						label: jQuery('#cancel').val(),
+						className: "btn-light"
 					},
-					{
-						"label": jQuery('#ok').val(),
-						"class": "btn-inverse",
-						"callback": function ()
+					ok: {
+						label: jQuery('#ok').val(),
+						className: "btn-primary",
+						callback: function ()
 						{
 							var newContent = jQuery('#textfile_edit_area').val();
 							if(window.editor && typeof window.editor.getData === "function"){
@@ -1379,10 +1389,8 @@ var encodeURL,show_animation,hide_animation,apply,apply_none,apply_img,apply_any
 							});
 						}
 					}
-				],
-				{
-					"header": $trigger.find('.name_download').val()
-				});
+				}
+			});
 		});
 	}
 
@@ -1394,16 +1402,19 @@ var encodeURL,show_animation,hide_animation,apply,apply_none,apply_img,apply_any
 			data: {}
 		}).done(function (init_msg)
 		{
-			bootbox.dialog(init_msg,
-				[
-					{
-						"label": jQuery('#cancel').val(),
-						"class": "btn"
+			bootbox.dialog({
+				title: jQuery('#lang_lang_change').val(),
+				message: init_msg,
+				backdrop: true,
+				buttons: {
+					cancel: {
+						label: jQuery('#cancel').val(),
+						className: "btn-light"
 					},
-					{
-						"label": jQuery('#ok').val(),
-						"class": "btn-inverse",
-						"callback": function ()
+					ok: {
+						label: jQuery('#ok').val(),
+						className: "btn-primary",
+						callback: function ()
 						{
 							// get new lang
 							var newLang = jQuery('#new_lang_select').val();
@@ -1428,10 +1439,8 @@ var encodeURL,show_animation,hide_animation,apply,apply_none,apply_img,apply_any
 							});
 						}
 					}
-				],
-				{
-					"header": jQuery('#lang_lang_change').val()
-				});
+				}
+			});
 		});
 	}
 
@@ -1456,16 +1465,19 @@ var encodeURL,show_animation,hide_animation,apply,apply_none,apply_img,apply_any
 			}
 		}).done(function (init_msg)
 		{
-			bootbox.dialog(init_msg,
-				[
-					{
-						"label": jQuery('#cancel').val(),
-						"class": "btn"
+			bootbox.dialog({
+				title: jQuery('#lang_file_permission').val(),
+				message: init_msg,
+				backdrop: true,
+				buttons: {
+					cancel: {
+						label: jQuery('#cancel').val(),
+						className: "btn-light"
 					},
-					{
-						"label": jQuery('#ok').val(),
-						"class": "btn-inverse",
-						"callback": function ()
+					ok: {
+						label: jQuery('#ok').val(),
+						className: "btn-primary",
+						callback: function ()
 						{
 							var info = "-";
 							if(jQuery('#u_4').is(':checked')){
@@ -1547,11 +1559,8 @@ var encodeURL,show_animation,hide_animation,apply,apply_none,apply_img,apply_any
 							}
 						}
 					}
-				],
-				{
-					"header": jQuery('#lang_file_permission').val()
 				}
-			);
+			});
 			setTimeout(function(){ chmod_logic(false); }, 100);
 		});
 	}
@@ -2277,12 +2286,48 @@ var encodeURL,show_animation,hide_animation,apply,apply_none,apply_img,apply_any
 		}
 		else
 		{
-			// Hide parent modal if it exists
-			var parentModal = parent.document.querySelector(".modal:has(iframe)");
-			if (parentModal) {
-				var modalInstance = bootstrap.Modal.getInstance(parentModal);
-				if (modalInstance) modalInstance.hide();
+			// Try to find and close parent modal - support both Bootstrap 4 and 5
+			var parentModal = null;
+			
+			// First try to find modal containing iframe
+			try {
+				parentModal = parent.document.querySelector(".modal iframe");
+				if (parentModal) {
+					parentModal = parentModal.closest('.modal');
+				}
+			} catch(e) {
+				// Fallback for browsers that don't support :has()
+				var modals = parent.document.querySelectorAll('.modal');
+				for (var i = 0; i < modals.length; i++) {
+					if (modals[i].querySelector('iframe')) {
+						parentModal = modals[i];
+						break;
+					}
+				}
 			}
+			
+			if (parentModal) {
+				// Try Bootstrap 5 first
+				if (typeof parent.bootstrap !== "undefined" && parent.bootstrap.Modal) {
+					var modalInstance = parent.bootstrap.Modal.getInstance(parentModal);
+					if (modalInstance) {
+						modalInstance.hide();
+					} else {
+						// Create instance and hide
+						new parent.bootstrap.Modal(parentModal).hide();
+					}
+				}
+				// Try Bootstrap 4
+				else if (typeof parent.jQuery !== "undefined" && parent.jQuery && typeof parent.jQuery.fn.modal !== "undefined") {
+					parent.jQuery(parentModal).modal('hide');
+				}
+				// Try Bootstrap 3
+				else if (typeof parent.$ !== "undefined" && parent.$ && typeof parent.$.fn.modal !== "undefined") {
+					parent.$(parentModal).modal('hide');
+				}
+			}
+			
+			// Also try fancybox
 			if (typeof parent.jQuery !== "undefined" && parent.jQuery)
 			{
 				if (typeof parent.jQuery.fancybox == 'object'){

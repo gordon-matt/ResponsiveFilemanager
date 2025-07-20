@@ -47,7 +47,6 @@ mix.scripts(
         'node_modules/jquery-contextmenu/dist/jquery.contextMenu.js',
                 'node_modules/vanilla-lazyload/dist/lazyload.js',
         'node_modules/jquery-scrollstop/jquery.scrollstop.js',
-        'resources/assets/js/bootbox-replacement.js',
         'node_modules/jquery-touchswipe/jquery.touchSwipe.js',
         'node_modules/featherlight/src/featherlight.js',
         'node_modules/clipboard/dist/clipboard.js',

@@ -2,16 +2,14 @@
 
 // Slim toolbar styling
 .navbar {
-  padding: 0.25rem 1rem !important;
+  padding: 0 !important;
+  margin: 0 !important;
   min-height: auto !important;
   
   .container-fluid {
     padding: 0 !important;
-    margin-top: 0 !important;
-  }
-  
-  .collapse {
-    padding: 0.5rem 0;
+    margin: 0 !important;
+    max-width: none !important;
   }
 }
 
@@ -88,11 +86,62 @@
   }
 }
 
-// Remove excessive spacing
+// Remove excessive spacing and ensure edge-to-edge layout
 .container-fluid {
   .row {
     margin: 0.25rem 0 !important;
   }
+  
+  // Ensure toolbar content has no padding
+  .d-flex {
+    padding: 0.5rem 1rem !important;
+  }
+}
+
+// Breadcrumb area padding
+.d-flex.align-items-center {
+  padding: 0.5rem 1rem !important;
+  margin: 0 !important;
+}
+
+// File manager container min-width to prevent toolbar wrapping  
+.container-fluid {
+  min-width: 800px !important;
+}
+
+// Fix iframe scrollbars by ensuring proper sizing
+html, body {
+  overflow-x: hidden !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.container-fluid {
+  overflow-x: auto !important;
+  width: 100% !important;
+}
+
+// Ensure no gaps around the entire file manager
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+// Fix bootbox modal centering
+.bootbox .modal-dialog {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  margin: 0 !important;
+  width: auto !important;
+  max-width: 90vw !important;
+}
+
+.bootbox .modal {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 // Breadcrumb and action buttons layout
@@ -134,12 +183,31 @@
   }
 }
 
-// Action buttons in breadcrumb area
+// Action buttons in breadcrumb area - icon only style
 .flex-shrink-0 {
   .btn {
-    padding: 0.25rem 0.5rem !important;
-    margin: 0 0.125rem !important;
-    font-size: 0.875rem !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0.25rem !important;
+    margin: 0 0.25rem !important;
+    font-size: 1rem !important;
+    color: #6c757d !important;
+    box-shadow: none !important;
+    
+    &:hover {
+      background: rgba(0,0,0,0.1) !important;
+      color: #495057 !important;
+    }
+    
+    &:focus {
+      box-shadow: none !important;
+    }
+  }
+  
+  .dropdown-toggle {
+    &::after {
+      display: none; // Hide dropdown arrow
+    }
   }
   
   small {

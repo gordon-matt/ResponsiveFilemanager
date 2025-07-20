@@ -390,6 +390,8 @@ $get_params = http_build_query($get_params);
             integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
             integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+    <!-- Official Bootbox v6.0.4 for Bootstrap 5 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootbox@6.0.4/dist/bootbox.min.js"></script>
     <script src="js/plugins.js?v=<?php
     echo $version; ?>"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jplayer/2.9.2/jplayer/jquery.jplayer.min.js"></script>
@@ -622,7 +624,7 @@ if ($config['upload_files']) { ?>
     <div class="uploader">
         <div class="d-flex flex-column">
             <div class="text-center">
-                <button class="btn btn-dark close-uploader"><i class="bi bi-arrow-left"></i> <?php
+                <button class="btn btn-light close-uploader"><i class="bi bi-arrow-left"></i> <?php
                     echo trans('Return_Files_List') ?></button>
             </div>
             <div class="space10"></div>
@@ -963,12 +965,8 @@ if ($config['upload_files']) { ?>
     $files = $sorted;
     ?>
     <!-- header div start -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+    <nav class="navbar navbar-light bg-light border-bottom">
         <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
                 <div class="d-flex w-100">
                     <!-- Action buttons on the left -->
                     <div class="d-flex flex-wrap align-items-center me-auto">
@@ -980,23 +978,23 @@ if ($config['upload_files']) { ?>
                                 } ?>
                                 <?php
                                 if ($config['create_text_files']) { ?>
-                                    <button class="tip btn btn-secondary create-file-btn" title="<?php
-                                    echo trans('New_File'); ?>"><i class="bi bi-plus"></i><i class="bi bi-file-earmark"></i>
-                                    </button>
+                                                                    <button class="tip btn btn-light create-file-btn" title="<?php
+                                echo trans('New_File'); ?>"><i class="bi bi-plus"></i><i class="bi bi-file-earmark"></i>
+                                </button>
                                 <?php
                                 } ?>
                                 <?php
                                 if ($config['create_folders']) { ?>
-                                    <button class="tip btn btn-secondary new-folder" title="<?php
+                                    <button class="tip btn btn-light new-folder" title="<?php
                                     echo trans('New_Folder') ?>"><i class="bi bi-plus"></i><i
                                                 class="bi bi-folder-plus"></i></button>
                                 <?php
                                 } ?>
                                 <?php
                                 if ($config['copy_cut_files'] || $config['copy_cut_dirs']) { ?>
-                                    <button class="tip btn btn-secondary paste-here-btn" title="<?php
+                                    <button class="tip btn btn-light paste-here-btn" title="<?php
                                     echo trans('Paste_Here'); ?>"><i class="rficon-clipboard-apply"></i></button>
-                                    <button class="tip btn btn-secondary clear-clipboard-btn" title="<?php
+                                    <button class="tip btn btn-light clear-clipboard-btn" title="<?php
                                     echo trans('Clear_Clipboard'); ?>"><i class="rficon-clipboard-clear"></i></button>
                                 <?php
                                 } ?>
@@ -1010,13 +1008,13 @@ if ($config['upload_files']) { ?>
                                             echo trans('Confirm_del'); ?>"><i class="bi bi-trash"></i></button>
                                         <?php
                                         } ?>
-                                        <button class="tip btn btn-secondary multiple-select-btn" title="<?php
+                                        <button class="tip btn btn-light multiple-select-btn" title="<?php
                                         echo trans('Select_All'); ?>"><i class="bi bi-check-square"></i></button>
-                                        <button class="tip btn btn-secondary multiple-deselect-btn" title="<?php
+                                        <button class="tip btn btn-light multiple-deselect-btn" title="<?php
                                         echo trans('Deselect_All'); ?>"><i class="bi bi-square"></i></button>
                                         <?php
                                         if ($apply_type != "apply_none" && $config['multiple_selection_action_button']) { ?>
-                                            <button class="btn multiple-action-btn btn-dark" data-function="<?php
+                                            <button class="btn multiple-action-btn btn-light" data-function="<?php
                                             echo $apply_type; ?>"><?php
                                                 echo trans('Select'); ?></button>
                                         <?php
@@ -1034,21 +1032,21 @@ if ($config['upload_files']) { ?>
                             if ($view == 0) {
                                 echo " btn-dark";
                             } else {
-                                echo " btn-secondary";
+                                echo " btn-light";
                             } ?>" id="view0" data-value="0" title="<?php
                             echo trans('View_boxes'); ?>"><i class="bi bi-grid-3x3"></i></button>
                             <button class="btn tip<?php
                             if ($view == 1) {
                                 echo " btn-dark";
                             } else {
-                                echo " btn-secondary";
+                                echo " btn-light";
                             } ?>" id="view1" data-value="1" title="<?php
                             echo trans('View_list'); ?>"><i class="bi bi-list"></i></button>
                             <button class="btn tip<?php
                             if ($view == 2) {
                                 echo " btn-dark";
                             } else {
-                                echo " btn-secondary";
+                                echo " btn-light";
                             } ?>" id="view2" data-value="2" title="<?php
                             echo trans('View_columns_list'); ?>"><i class="bi bi-columns"></i></button>
                         </div>
@@ -1064,7 +1062,7 @@ if ($config['upload_files']) { ?>
                                         <input id="select-type-1" name="radio-sort" type="radio"
                                                data-item="ff-item-type-1" class="d-none"/>
                                         <label id="ff-item-type-1" title="<?php
-                                        echo trans('Files'); ?>" for="select-type-1" class="tip btn btn-secondary ff-label-type-1"><i
+                                        echo trans('Files'); ?>" for="select-type-1" class="tip btn btn-light ff-label-type-1"><i
                                                     class="bi bi-file-earmark"></i></label>
                                     <?php
                                     } ?>
@@ -1073,7 +1071,7 @@ if ($config['upload_files']) { ?>
                                         <input id="select-type-2" name="radio-sort" type="radio"
                                                data-item="ff-item-type-2" class="d-none"/>
                                         <label id="ff-item-type-2" title="<?php
-                                        echo trans('Images'); ?>" for="select-type-2" class="tip btn btn-secondary ff-label-type-2"><i
+                                        echo trans('Images'); ?>" for="select-type-2" class="tip btn btn-light ff-label-type-2"><i
                                                     class="bi bi-image"></i></label>
                                     <?php
                                     } ?>
@@ -1082,7 +1080,7 @@ if ($config['upload_files']) { ?>
                                         <input id="select-type-3" name="radio-sort" type="radio"
                                                data-item="ff-item-type-3" class="d-none"/>
                                         <label id="ff-item-type-3" title="<?php
-                                        echo trans('Archives'); ?>" for="select-type-3" class="tip btn btn-secondary ff-label-type-3"><i
+                                        echo trans('Archives'); ?>" for="select-type-3" class="tip btn btn-light ff-label-type-3"><i
                                                     class="bi bi-archive"></i></label>
                                     <?php
                                     } ?>
@@ -1091,7 +1089,7 @@ if ($config['upload_files']) { ?>
                                         <input id="select-type-4" name="radio-sort" type="radio"
                                                data-item="ff-item-type-4" class="d-none"/>
                                         <label id="ff-item-type-4" title="<?php
-                                        echo trans('Videos'); ?>" for="select-type-4" class="tip btn btn-secondary ff-label-type-4"><i
+                                        echo trans('Videos'); ?>" for="select-type-4" class="tip btn btn-light ff-label-type-4"><i
                                                     class="bi bi-camera-video"></i></label>
                                     <?php
                                     } ?>
@@ -1100,7 +1098,7 @@ if ($config['upload_files']) { ?>
                                         <input id="select-type-5" name="radio-sort" type="radio"
                                                data-item="ff-item-type-5" class="d-none"/>
                                         <label id="ff-item-type-5" title="<?php
-                                        echo trans('Music'); ?>" for="select-type-5" class="tip btn btn-secondary ff-label-type-5"><i
+                                        echo trans('Music'); ?>" for="select-type-5" class="tip btn btn-light ff-label-type-5"><i
                                                     class="bi bi-music-note"></i></label>
                                     <?php
                                     } ?>
@@ -1111,7 +1109,7 @@ if ($config['upload_files']) { ?>
                                        id="filter-input" name="filter" placeholder="<?php
                                 echo fix_strtolower(trans('Text_filter')); ?>..." value="<?php
                                 echo $filter; ?>" style="width: auto;"/><?php
-                                if ($n_files > $config['file_number_limit_js']) { ?><label id="filter" class="btn btn-secondary"><i
+                                if ($n_files > $config['file_number_limit_js']) { ?><label id="filter" class="btn btn-light"><i
                                             class="bi bi-play-fill"></i></label><?php
                                 } ?>
 
@@ -1126,7 +1124,6 @@ if ($config['upload_files']) { ?>
                         </div>
                     </div>
                 </div>
-            </div>
         </div>
     </nav>
 
@@ -1164,20 +1161,28 @@ if ($config['upload_files']) { ?>
 
             </ol>
         </nav>
-        <div class="d-flex align-items-center ms-auto flex-shrink-0">
-            <a class="btn btn-sm btn-secondary me-1" href="javascript:void('')" id="info"><i
-                            class="bi bi-question-circle"></i></a>
+        <div class="d-flex align-items-center me-3">
+            <small class="d-none d-sm-block">(<span id="files_number"><?php
+                        echo $current_files_number . "</span> " . trans(
+                                'Files'
+                            ) . " - <span id='folders_number'>" . $current_folders_number . "</span> " . trans(
+                                'Folders'
+                            ); ?>)</small>
             <?php
-            if ($config['show_language_selection']) { ?>
-                <a class="btn btn-sm btn-secondary me-1" href="javascript:void('')" id="change_lang_btn"><i
-                                class="bi bi-globe"></i></a>
+            if ($config['show_total_size']) { ?>
+                <small class="d-none d-sm-block ms-2"><span title="<?php
+                        echo trans('total size') . $config['MaxSizeTotal']; ?>"><?php
+                            echo trans('total size') . ": " . makeSize(
+                                    $sizeCurrentFolder
+                                ) . (($config['MaxSizeTotal'] !== false && is_int(
+                                        $config['MaxSizeTotal']
+                                    )) ? '/' . $config['MaxSizeTotal'] . ' ' . trans('MB') : ''); ?></span></small>
             <?php
             } ?>
-            <a id="refresh" class="btn btn-sm btn-secondary me-1" href="dialog.php?<?php
-                echo $get_params . $subdir . "&" . uniqid() ?>"><i class="bi bi-arrow-clockwise"></i></a>
-
+        </div>
+        <div class="d-flex align-items-center ms-auto flex-shrink-0">
             <div class="dropdown">
-                <a class="btn btn-sm btn-secondary dropdown-toggle sorting-btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="btn btn-sm btn-light dropdown-toggle sorting-btn" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="bi bi-sort-down"></i>
                 </a>
                 <ul class="dropdown-menu sorting">
@@ -1205,24 +1210,17 @@ if ($config['upload_files']) { ?>
                                 echo trans('Type'); ?></a></li>
                     </ul>
                 </div>
-            </div>
-            <small class="d-none d-sm-block">(<span id="files_number"><?php
-                        echo $current_files_number . "</span> " . trans(
-                                'Files'
-                            ) . " - <span id='folders_number'>" . $current_folders_number . "</span> " . trans(
-                                'Folders'
-                            ); ?>)</small>
+            <a id="refresh" class="btn btn-sm btn-light me-1" href="dialog.php?<?php
+                echo $get_params . $subdir . "&" . uniqid() ?>"><i class="bi bi-arrow-clockwise"></i></a>
             <?php
-            if ($config['show_total_size']) { ?>
-                <small class="d-none d-sm-block"><span title="<?php
-                        echo trans('total size') . $config['MaxSizeTotal']; ?>"><?php
-                            echo trans('total size') . ": " . makeSize(
-                                    $sizeCurrentFolder
-                                ) . (($config['MaxSizeTotal'] !== false && is_int(
-                                        $config['MaxSizeTotal']
-                                    )) ? '/' . $config['MaxSizeTotal'] . ' ' . trans('MB') : ''); ?></span></small>
+            if ($config['show_language_selection']) { ?>
+                <a class="btn btn-sm btn-light me-1" href="javascript:void('')" id="change_lang_btn"><i
+                                class="bi bi-globe"></i></a>
             <?php
             } ?>
+            <a class="btn btn-sm btn-light me-1" href="javascript:void('')" id="info"><i
+                            class="bi bi-question-circle"></i></a>
+            </div>
         </div>
     </div>
     <!-- breadcrumb div end -->

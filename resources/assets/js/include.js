@@ -101,7 +101,7 @@ var encodeURL,show_animation,hide_animation,apply,apply_none,apply_img,apply_any
 				tuiElement.attr('data-path', full_path);
 				show_animation();
 				launchEditor(tuiElement.attr('id'), full_path);
-				tuiElement.removeClass('hide');
+				tuiElement.removeClass('d-none').show();
 			},
 
 			duplicate: function($trigger)
@@ -457,7 +457,12 @@ var encodeURL,show_animation,hide_animation,apply,apply_none,apply_img,apply_any
 					url: _this.attr('data-url'),
 					success: function (data)
 					{
-						bootbox.modal(data, " "+_this.parent().parent().parent().find('.name').val());
+						bootbox.dialog({
+							title: " "+_this.parent().parent().parent().find('.name').val(),
+							message: data,
+							backdrop: true,
+							size: 'large'
+						});
 					}
 				});
 			});
@@ -648,10 +653,8 @@ var encodeURL,show_animation,hide_animation,apply,apply_none,apply_img,apply_any
 				checked=0;
 				$('.selection:checkbox').removeAttr('checked');
 				FileManager.updateMultipleSelectionButtons();
-				jQuery('.filters label').removeClass("btn-inverse");
-				jQuery('.filters label').find('i').removeClass('icon-white');
-				jQuery('#ff-item-type-all').addClass("btn-inverse");
-				jQuery('#ff-item-type-all').find('i').addClass('icon-white');
+				jQuery('.filters label').removeClass("btn-dark").addClass("btn-light");
+				jQuery('#ff-item-type-all').removeClass("btn-light").addClass("btn-dark");
 				var val = fix_filename(jQuery(this).val()).toLowerCase();
 				jQuery(this).val(val);
 				if (js_script)
@@ -780,6 +783,46 @@ var encodeURL,show_animation,hide_animation,apply,apply_none,apply_img,apply_any
 			})
 		},
 
+		setActiveFilterButton: function() {
+			// Check what file types are currently visible to determine active filter
+			var allFiles = jQuery('#main-item-container li:not(.back)');
+			var visibleFiles = allFiles.filter(':visible');
+			var hasImages = false, hasFiles = false, hasArchives = false, hasVideos = false, hasMusic = false;
+			
+			// Count each type in visible files
+			var imageCount = visibleFiles.filter('.ff-item-type-2').length;
+			var fileCount = visibleFiles.filter('.ff-item-type-1').length;
+			var archiveCount = visibleFiles.filter('.ff-item-type-3').length;
+			var videoCount = visibleFiles.filter('.ff-item-type-4').length;
+			var musicCount = visibleFiles.filter('.ff-item-type-5').length;
+			
+			// Check if we have files of each type
+			hasImages = imageCount > 0;
+			hasFiles = fileCount > 0;
+			hasArchives = archiveCount > 0;
+			hasVideos = videoCount > 0;
+			hasMusic = musicCount > 0;
+			
+			// Count how many different types we have
+			var typeCount = (hasImages ? 1 : 0) + (hasFiles ? 1 : 0) + (hasArchives ? 1 : 0) + (hasVideos ? 1 : 0) + (hasMusic ? 1 : 0);
+			
+			// If only one type is visible and it represents ALL files of that type, select that filter
+			var totalVisibleFiles = visibleFiles.length;
+			
+			if (typeCount === 1 && totalVisibleFiles > 0) {
+				// Only one type is visible - select that type's filter
+				if (hasImages && imageCount === totalVisibleFiles) jQuery('#select-type-2').prop('checked', true);
+				else if (hasFiles && fileCount === totalVisibleFiles) jQuery('#select-type-1').prop('checked', true);
+				else if (hasArchives && archiveCount === totalVisibleFiles) jQuery('#select-type-3').prop('checked', true);
+				else if (hasVideos && videoCount === totalVisibleFiles) jQuery('#select-type-4').prop('checked', true);
+				else if (hasMusic && musicCount === totalVisibleFiles) jQuery('#select-type-5').prop('checked', true);
+				else jQuery('#select-type-all').prop('checked', true);
+			} else {
+				// Multiple types or no filtering - select "All"
+				jQuery('#select-type-all').prop('checked', true);
+			}
+		},
+
 		makeSort: function(js_script)
 		{
 			// sorting
@@ -791,13 +834,11 @@ var encodeURL,show_animation,hide_animation,apply,apply_none,apply_img,apply_any
 				checked = 0;
 				$('.selection:checkbox').removeAttr('checked');
 				FileManager.updateMultipleSelectionButtons();
-				labelElement.removeClass("btn-inverse");
-				labelElement.find('i').removeClass('icon-white');
+				labelElement.removeClass("btn-dark").addClass("btn-light");
 
 				jQuery('#filter-input').val('');
 
-				liElement.addClass("btn-inverse");
-				liElement.find('i').addClass('icon-white');
+				liElement.removeClass("btn-light").addClass("btn-dark");
 
 				if (li == 'ff-item-type-all')
 				{
@@ -929,6 +970,9 @@ var encodeURL,show_animation,hide_animation,apply,apply_none,apply_img,apply_any
 		FileManager.makeSort(js_script);
 		FileManager.makeFilters(js_script);
 		FileManager.uploadURL();
+		
+		// Set correct filter button as active on page load
+		FileManager.setActiveFilterButton();
 
 		// info btn
 		jQuery('#info').on('click', function ()
@@ -1010,10 +1054,8 @@ var encodeURL,show_animation,hide_animation,apply,apply_none,apply_img,apply_any
 		{
 			var _this = jQuery(this);
 
-			jQuery('.view-controller button').removeClass('btn-inverse');
-			jQuery('.view-controller i').removeClass('icon-white');
-			_this.addClass('btn-inverse');
-			_this.find('i').addClass('icon-white');
+			jQuery('.view-controller button').removeClass('btn-dark').addClass('btn-light');
+			_this.removeClass('btn-light').addClass('btn-dark');
 
 			$.ajax({
 				url: "ajax_calls.php?action=view&type=" + _this.attr('data-value')
@@ -2680,6 +2722,12 @@ var encodeURL,show_animation,hide_animation,apply,apply_none,apply_img,apply_any
 
 	function launchEditor(id, src)
 	{
+		if (!imageEditor) {
+			bootbox.alert("Image editor is not initialized. Please check TUI configuration.");
+			hide_animation();
+			return false;
+		}
+		
 		//load image into cropper. Set heights and refresh cropper.
         imageEditor.loadImageFromURL(src, "SampleImage").then(result=>{
 		    imageEditor.ui.resizeEditor({

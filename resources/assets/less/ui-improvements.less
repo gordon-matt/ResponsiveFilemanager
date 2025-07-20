@@ -117,7 +117,7 @@ html, body {
 }
 
 .container-fluid {
-  overflow-x: auto !important;
+  overflow: visible !important;
   width: 100% !important;
 }
 
@@ -142,6 +142,73 @@ body {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
+}
+
+// Filter button active states - checked radio buttons should be dark
+input[type="radio"]:checked + label.ff-label-type-1,
+input[type="radio"]:checked + label.ff-label-type-2,
+input[type="radio"]:checked + label.ff-label-type-3,
+input[type="radio"]:checked + label.ff-label-type-4,
+input[type="radio"]:checked + label.ff-label-type-5,
+input[type="radio"]:checked + label.ff-label-type-all {
+  background-color: #212529 !important;
+  border-color: #212529 !important;
+  color: white !important;
+}
+
+// Ensure unchecked filter buttons are light
+input[type="radio"]:not(:checked) + label.ff-label-type-1,
+input[type="radio"]:not(:checked) + label.ff-label-type-2,
+input[type="radio"]:not(:checked) + label.ff-label-type-3,
+input[type="radio"]:not(:checked) + label.ff-label-type-4,
+input[type="radio"]:not(:checked) + label.ff-label-type-5,
+input[type="radio"]:not(:checked) + label.ff-label-type-all {
+  background-color: #f8f9fa !important;
+  border-color: #f8f9fa !important;
+  color: #212529 !important;
+}
+
+// Fix sorting dropdown z-index to appear above other elements
+.dropdown-menu {
+  z-index: 9999 !important;
+  position: absolute !important;
+}
+
+// Fix view controller active states - ensure they update dynamically
+.view-controller .btn {
+  background-color: #f8f9fa !important;
+  border-color: #f8f9fa !important;
+  color: #212529 !important;
+  
+  &.btn-dark {
+    background-color: #212529 !important;
+    border-color: #212529 !important;
+    color: white !important;
+  }
+}
+
+// Fix column view (view2) to show 3 columns instead of 2
+.list-view2.grid {
+  li {
+    width: calc(33.33% - 8px) !important;
+    max-width: calc(33.33% - 8px) !important;
+    display: inline-block !important;
+    vertical-align: top !important;
+  }
+}
+
+// JavaScript will handle filter button states on page load
+// This CSS ensures the radio button states work properly
+input[name="radio-sort"]:checked + label {
+  background-color: #212529 !important;
+  border-color: #212529 !important;
+  color: white !important;
+}
+
+input[name="radio-sort"]:not(:checked) + label {
+  background-color: #f8f9fa !important;
+  border-color: #f8f9fa !important;
+  color: #212529 !important;
 }
 
 // Breadcrumb and action buttons layout

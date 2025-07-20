@@ -972,29 +972,29 @@ if ($config['upload_files']) { ?>
                     <div class="d-flex flex-wrap align-items-center me-auto">
                                 <?php
                                 if ($config['upload_files']) { ?>
-                                    <button class="tip btn btn-success upload-btn" title="<?php
+                                                                        <button class="tip btn btn-sm btn-success upload-btn" title="<?php
                                     echo trans('Upload_file'); ?>"><i class="rficon-upload"></i> <?php echo trans('Upload_file'); ?></button>
                                 <?php
                                 } ?>
                                 <?php
                                 if ($config['create_text_files']) { ?>
-                                                                    <button class="tip btn btn-light create-file-btn" title="<?php
+                                    <button class="tip btn btn-sm btn-light create-file-btn" title="<?php
                                 echo trans('New_File'); ?>"><i class="bi bi-plus"></i><i class="bi bi-file-earmark"></i>
                                 </button>
                                 <?php
                                 } ?>
                                 <?php
                                 if ($config['create_folders']) { ?>
-                                    <button class="tip btn btn-light new-folder" title="<?php
+                                    <button class="tip btn btn-sm btn-light new-folder" title="<?php
                                     echo trans('New_Folder') ?>"><i class="bi bi-plus"></i><i
                                                 class="bi bi-folder-plus"></i></button>
                                 <?php
                                 } ?>
                                 <?php
                                 if ($config['copy_cut_files'] || $config['copy_cut_dirs']) { ?>
-                                    <button class="tip btn btn-light paste-here-btn" title="<?php
+                                    <button class="tip btn btn-sm btn-light paste-here-btn" title="<?php
                                     echo trans('Paste_Here'); ?>"><i class="rficon-clipboard-apply"></i></button>
-                                    <button class="tip btn btn-light clear-clipboard-btn" title="<?php
+                                    <button class="tip btn btn-sm btn-light clear-clipboard-btn" title="<?php
                                     echo trans('Clear_Clipboard'); ?>"><i class="rficon-clipboard-clear"></i></button>
                                 <?php
                                 } ?>
@@ -1003,18 +1003,18 @@ if ($config['upload_files']) { ?>
                                     if ($config['multiple_selection']) { ?>
                                         <?php
                                         if ($config['delete_files']) { ?>
-                                            <button class="tip btn btn-danger multiple-delete-btn" title="<?php
+                                            <button class="tip btn btn-sm btn-danger multiple-delete-btn" title="<?php
                                             echo trans('Erase'); ?>" data-confirm="<?php
                                             echo trans('Confirm_del'); ?>"><i class="bi bi-trash"></i></button>
                                         <?php
                                         } ?>
-                                        <button class="tip btn btn-light multiple-select-btn" title="<?php
+                                        <button class="tip btn btn-sm btn-light multiple-select-btn" title="<?php
                                         echo trans('Select_All'); ?>"><i class="bi bi-check-square"></i></button>
-                                        <button class="tip btn btn-light multiple-deselect-btn" title="<?php
+                                        <button class="tip btn btn-sm btn-light multiple-deselect-btn" title="<?php
                                         echo trans('Deselect_All'); ?>"><i class="bi bi-square"></i></button>
                                         <?php
                                         if ($apply_type != "apply_none" && $config['multiple_selection_action_button']) { ?>
-                                            <button class="btn multiple-action-btn btn-light" data-function="<?php
+                                            <button class="btn btn-sm multiple-action-btn btn-light" data-function="<?php
                                             echo $apply_type; ?>"><?php
                                                 echo trans('Select'); ?></button>
                                         <?php
@@ -1028,21 +1028,21 @@ if ($config['upload_files']) { ?>
                     <div class="d-flex flex-nowrap align-items-center ms-auto">
                         <!-- View controllers -->
                         <div class="view-controller me-2">
-                            <button class="btn tip<?php
+                            <button class="btn btn-sm tip<?php
                             if ($view == 0) {
                                 echo " btn-dark";
                             } else {
                                 echo " btn-light";
                             } ?>" id="view0" data-value="0" title="<?php
                             echo trans('View_boxes'); ?>"><i class="bi bi-grid-3x3"></i></button>
-                            <button class="btn tip<?php
+                            <button class="btn btn-sm tip<?php
                             if ($view == 1) {
                                 echo " btn-dark";
                             } else {
                                 echo " btn-light";
                             } ?>" id="view1" data-value="1" title="<?php
                             echo trans('View_list'); ?>"><i class="bi bi-list"></i></button>
-                            <button class="btn tip<?php
+                            <button class="btn btn-sm tip<?php
                             if ($view == 2) {
                                 echo " btn-dark";
                             } else {
@@ -1062,7 +1062,7 @@ if ($config['upload_files']) { ?>
                                         <input id="select-type-1" name="radio-sort" type="radio"
                                                data-item="ff-item-type-1" class="d-none"/>
                                         <label id="ff-item-type-1" title="<?php
-                                        echo trans('Files'); ?>" for="select-type-1" class="tip btn btn-light ff-label-type-1"><i
+                                        echo trans('Files'); ?>" for="select-type-1" class="tip btn btn-sm btn-light ff-label-type-1"><i
                                                     class="bi bi-file-earmark"></i></label>
                                     <?php
                                     } ?>
@@ -1071,7 +1071,7 @@ if ($config['upload_files']) { ?>
                                         <input id="select-type-2" name="radio-sort" type="radio"
                                                data-item="ff-item-type-2" class="d-none"/>
                                         <label id="ff-item-type-2" title="<?php
-                                        echo trans('Images'); ?>" for="select-type-2" class="tip btn btn-light ff-label-type-2"><i
+                                        echo trans('Images'); ?>" for="select-type-2" class="tip btn btn-sm btn-light ff-label-type-2"><i
                                                     class="bi bi-image"></i></label>
                                     <?php
                                     } ?>
@@ -1080,7 +1080,7 @@ if ($config['upload_files']) { ?>
                                         <input id="select-type-3" name="radio-sort" type="radio"
                                                data-item="ff-item-type-3" class="d-none"/>
                                         <label id="ff-item-type-3" title="<?php
-                                        echo trans('Archives'); ?>" for="select-type-3" class="tip btn btn-light ff-label-type-3"><i
+                                        echo trans('Archives'); ?>" for="select-type-3" class="tip btn btn-sm btn-light ff-label-type-3"><i
                                                     class="bi bi-archive"></i></label>
                                     <?php
                                     } ?>
@@ -1089,7 +1089,7 @@ if ($config['upload_files']) { ?>
                                         <input id="select-type-4" name="radio-sort" type="radio"
                                                data-item="ff-item-type-4" class="d-none"/>
                                         <label id="ff-item-type-4" title="<?php
-                                        echo trans('Videos'); ?>" for="select-type-4" class="tip btn btn-light ff-label-type-4"><i
+                                        echo trans('Videos'); ?>" for="select-type-4" class="tip btn btn-sm btn-light ff-label-type-4"><i
                                                     class="bi bi-camera-video"></i></label>
                                     <?php
                                     } ?>
@@ -1098,7 +1098,7 @@ if ($config['upload_files']) { ?>
                                         <input id="select-type-5" name="radio-sort" type="radio"
                                                data-item="ff-item-type-5" class="d-none"/>
                                         <label id="ff-item-type-5" title="<?php
-                                        echo trans('Music'); ?>" for="select-type-5" class="tip btn btn-light ff-label-type-5"><i
+                                        echo trans('Music'); ?>" for="select-type-5" class="tip btn btn-sm btn-light ff-label-type-5"><i
                                                     class="bi bi-music-note"></i></label>
                                     <?php
                                     } ?>
@@ -1109,17 +1109,17 @@ if ($config['upload_files']) { ?>
                                        id="filter-input" name="filter" placeholder="<?php
                                 echo fix_strtolower(trans('Text_filter')); ?>..." value="<?php
                                 echo $filter; ?>" style="width: auto;"/><?php
-                                if ($n_files > $config['file_number_limit_js']) { ?><label id="filter" class="btn btn-light"><i
+                                if ($n_files > $config['file_number_limit_js']) { ?><label id="filter" class="btn btn-sm btn-light"><i
                                             class="bi bi-play-fill"></i></label><?php
                                 } ?>
 
                                 <input id="select-type-all" name="radio-sort" type="radio" data-item="ff-item-type-all"
-                                       class="d-none" checked="checked"/>
+                                       class="d-none"/>
                                 <label id="ff-item-type-all" title="<?php
                                 echo trans('All'); ?>" <?php
                                        if ($_GET['type'] == 1 || $_GET['type'] == 3){ ?>style="visibility: hidden;" <?php
                                 } ?> data-item="ff-item-type-all" for="select-type-all" style="margin-right:0px;"
-                                       class="tip btn btn-dark ff-label-type-all"><?php
+                                       class="tip btn btn-sm btn-light ff-label-type-all"><?php
                                     echo trans('All'); ?></label>
                         </div>
                     </div>
@@ -1857,9 +1857,10 @@ if ($config['tui_active']) { ?>
     </script>
 
     <script>
+        var imageEditor = null;
         if (image_editor) {
             //TUI initial init with a blank image (Needs to be initiated before a dynamic image can be loaded into it)
-            var imageEditor = new tui.ImageEditor('#tui-image-editor', {
+            imageEditor = new tui.ImageEditor('#tui-image-editor', {
                 includeUI: {
                     loadImage: {
                         path: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',

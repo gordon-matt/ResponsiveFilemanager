@@ -10,11 +10,6 @@ mix.less(
     'resources/tmp/css/style.css',
 );
 
-mix.less(
-    'resources/assets/less/ui-improvements.less',
-    'resources/tmp/css/ui-improvements.css',
-);
-
 // Bootstrap lightbox removed - conflicts with Bootstrap v5
 // mix.less(
 //     'node_modules/bootstrap-lightbox/less/bootstrap-lightbox.less',
@@ -32,7 +27,6 @@ mix.styles(
         'node_modules/tui-image-editor/dist/tui-image-editor.css',
         // 'resources/tmp/css/lib.css', // Removed due to bootstrap-lightbox conflicts
         'resources/tmp/css/style.css',
-        'resources/tmp/css/ui-improvements.css',
     ],
     'filemanager/css/style.css',
 );

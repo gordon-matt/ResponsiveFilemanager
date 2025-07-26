@@ -1,5 +1,12 @@
-Responsive Filemanager Changelog 
-
+Responsive Filemanager Changelog
+*********************************************************
+*  RFM 9.20.0
+*********************************************************
+- Updated Bootstrap to v5.3.7
+- Added rootFolder parameter (example usage: support for tenant/user folder)
+- Fixed bug when downloading files with ampersands in the name.
+- TinyMCE plugin renamed to "responsivefilemanager" instead of "filemanager"
+- Various minor fixes/refactorings
 *********************************************************
 *  RFM 9.14.0
 *********************************************************
@@ -304,7 +311,7 @@ source folder (you can control it in config.php) (thanks to Stephane MERCIER)
 
 ***** Detailed *****
 - Cross domain feature:To enable cross-domain file selector, where files are hosted on one server (for example, serverA.com) and URL is being sent to another (for example, serverB.com), include crossdomain=1 in the URL.
-For example, to instantiate image picker, use the following URL: http://serverA.com/[path to filemanager]/filemanager/dialog.php?type=1&field_id=fieldID&crossdomain=1
+For example, to instantiate image picker, use the following URL:http://serverA.com/[path to filemanager]/filemanager/dialog.php?type=1&field_id=fieldID&crossdomain=1
 Then on serverB.com, the following code can be used to retrieve the URL after file selection is made. Please note, that the code is written for jQuery with FancyBox plug-in.
 
 //

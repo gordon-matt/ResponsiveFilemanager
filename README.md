@@ -1,4 +1,21 @@
-# Responsive FileManager for TinyMCE and CKEditor
+## Responsive File Manager
+
+The original author of this code is Alberto Peripolli and you can find his archived source code here:
+
+https://github.com/trippo/ResponsiveFilemanager
+
+I have taken the latest version and updated from using Bootstrap 2 to Bootstrap 5:
+
+<img src="https://github.com/gordon-matt/ResponsiveFilemanager/blob/master/_Misc/Bootstrap5.PNG" alt="Bootstrap 5 Screenshot" />
+
+Note that this is built for PHP, but I have it working in ASP.NET using PeachPie.
+You can find the instructions for making that work here:
+
+https://github.com/gordon-matt/peachpie-responsive-file-manager
+
+# Original README Content:
+
+## Responsive FileManager for TinyMCE and CKEditor
 
 [![Build Status](https://travis-ci.org/trippo/ResponsiveFilemanager.svg?branch=master)](https://travis-ci.org/trippo/ResponsiveFilemanager)
 

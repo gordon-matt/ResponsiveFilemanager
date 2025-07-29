@@ -45,6 +45,7 @@ mix.scripts(
         'node_modules/jquery-ui/dist/jquery-ui.min.js',
         'node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',
         'node_modules/bootbox/dist/bootbox.min.js',
+        'node_modules/knockout/build/output/knockout-latest.js',
     ],
     'filemanager/js/vendor.js',
 );
